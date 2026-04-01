@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram数据抓取工具 - CoreClaw</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-neutral-text: #1f2123;
+            --color-neutral-text-muted: #3d3f43;
+            --color-neutral-text-subtle: #6d7178;
+            --color-neutral-text-on-primary: #ffffff;
+            --color-neutral-background: #ffffff;
+            --color-neutral-background-muted: #f9f9fa;
+            --color-neutral-background-subtle: #f4f4f5;
+            --color-neutral-border: #d2d3d6;
+            --color-neutral-separator-subtle: #e4e5e6;
+            --color-primary-action: #e4405f;
+            --color-primary-action-hover: #f5607a;
+            --color-primary-background: #fce4e8;
+            --color-primary-black-action: #1f2123;
+            --color-primary-black-action-hover: #3d3f43;
+            --shadow-1: 1px 2px 2.5px -2.5px rgba(8, 8, 10, 0.32), 0.4px 0.8px 1px -1.2px rgba(8, 8, 10, 0.32), 0px 0.5px 1.5px 0px rgba(8, 8, 10, 0.32);
+            --shadow-2: 4px 8px 10.1px -2.5px rgba(8, 8, 10, 0.21), 1.7px 3.3px 4.2px -1.7px rgba(8, 8, 10, 0.21), 0.7px 1.4px 1.8px -0.8px rgba(8, 8, 10, 0.21), 0.3px 0.5px 0.7px 0px rgba(8, 8, 10, 0.21);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 10px;
+            scroll-padding-top: 8rem;
+        }
+
+        body {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-neutral-background);
+            border-bottom: 1px solid var(--color-neutral-separator-subtle);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 1.6rem 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--color-neutral-text);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 3.2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--color-primary-action);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary-black-action);
+            color: var(--color-neutral-text-on-primary);
+            box-shadow: var(--shadow-1);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-black-action-hover);
+            box-shadow: var(--shadow-2);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-primary-black-action-hover);
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 12rem 2.4rem 6rem;
+            text-align: center;
+        }
+
+        .hero-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.8rem;
+            line-height: 6.8rem;
+            font-weight: 400;
+            margin-bottom: 2.4rem;
+            color: var(--color-neutral-text);
+        }
+
+        .hero-subtitle {
+            font-size: 2.4rem;
+            line-height: 3.6rem;
+            color: var(--color-primary-action);
+            font-weight: 500;
+            margin-bottom: 2.4rem;
+        }
+
+        .hero-description {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            color: var(--color-neutral-text-muted);
+            max-width: 70rem;
+            margin: 0 auto 4rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+
+        /* Section */
+        .section {
+            padding: 6rem 2.4rem;
+        }
+
+        .section-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 4.8rem;
+            line-height: 5.8rem;
+            font-weight: 400;
+            margin-bottom: 1.6rem;
+        }
+
+        .section-subtitle {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: var(--color-neutral-text-muted);
+            max-width: 80rem;
+            margin: 0 auto;
+        }
+
+        /* Tool Cards */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .tool-card {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            padding: 2.4rem;
+            border: 1px solid var(--color-neutral-border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            border-color: var(--color-primary-action);
+            box-shadow: var(--shadow-2);
+            transform: translateY(-2px);
+        }
+
+        .tool-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1.6rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .tool-card-icon {
+            width: 4.8rem;
+            height: 4.8rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .tool-card-title-wrap {
+            flex: 1;
+        }
+
+        .tool-card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-neutral-text);
+            margin-bottom: 0.4rem;
+        }
+
+        .tool-card-desc {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        /* Features Section */
+        .features-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .feature-item {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            box-shadow: var(--shadow-2);
+            border-color: var(--color-primary-action);
+            transform: translateY(-2px);
+        }
+
+        .feature-item h4 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--color-neutral-text);
+        }
+
+        .feature-item p {
+            font-size: 1.5rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        /* Use Cases */
+        .use-cases-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2.4rem;
+            max-width: 80rem;
+            margin: 0 auto;
+        }
+
+        .use-case-item {
+            padding: 2.4rem;
+            background: var(--color-neutral-background-muted);
+            border-radius: 12px;
+        }
+
+        .use-case-item h4 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.6rem;
+            color: var(--color-neutral-text);
+        }
+
+        .use-case-item ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .use-case-item li {
+            font-size: 1.6rem;
+            line-height: 2.8rem;
+            color: var(--color-neutral-text-muted);
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .use-case-item li::before {
+            content: "●";
+            position: absolute;
+            left: 0;
+            color: var(--color-primary-action);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--color-neutral-background-muted);
+            padding: 6rem 2.4rem;
+        }
+
+        .faq-list {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .faq-question {
+            padding: 2rem 2.4rem;
+            font-size: 1.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-answer {
+            padding: 0 2.4rem 2rem;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--color-neutral-text-muted);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #e4405f 0%, #f5607a 100%);
+            padding: 6rem 2.4rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 4rem;
+            line-height: 5rem;
+            color: white;
+            margin-bottom: 1.6rem;
+        }
+
+        .cta-section p {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3.2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+
+        .btn-white {
+            background: white;
+            color: #e4405f;
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-neutral-background-muted);
+            padding: 4rem 2.4rem;
+            text-align: center;
+            border-top: 1px solid var(--color-neutral-border);
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.6rem;
+                line-height: 4.6rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.8rem;
+                line-height: 2.8rem;
+            }
+
+            .section-title {
+                font-size: 3.2rem;
+                line-height: 4.2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">CoreClaw</a>
+            <nav class="nav">
+                <a href="#" class="btn btn-secondary">登录</a>
+                <a href="#" class="btn btn-secondary">注册</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>Instagram数据抓取工具</h1>
+            <p class="hero-subtitle">来自视觉社交网络的深刻见解</p>
+            <p class="hero-description">抓取个人资料、帖子、视频和等数据。非常适合用于KOL合作、品牌监测和社交媒体分析。</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary">免费开始使用</button>
+                <button class="btn btn-secondary">浏览 Workers</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Tools Section -->
+    <section class="section" id="tools">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">快速找到适合您业务的Instagram Scraper</h2>
+            </div>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon" style="background: #e4405f; color: white;">R</div>
+                        <div class="tool-card-title-wrap">
+                            <div class="tool-card-title">Instagram Reel抓取工具--列表URL</div>
+                        </div>
+                    </div>
+                    <p class="tool-card-desc">Instagram Reel scraper提取作者用户名，标题，标签，评论/喜欢/观看/播放计数，发布日期，ID，缩略图URL，产品类型，持续时间，视频/音频链接，个人资料统计和付费合作伙伴状态。它通过URL工作，并以结构化格式导出结果。</p>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon" style="background: #833ab4; color: white;">C</div>
+                        <div class="tool-card-title-wrap">
+                            <div class="tool-card-title">Instagram评论抓取工具--帖子URL</div>
+                        </div>
+                    </div>
+                    <p class="tool-card-desc">Instagram帖子评论 scraper 可提取评论者的用户名、URL、评论日期、内容、点赞/回复数量、回复内容、话题标签、评论ID、帖子ID、原发帖人及帖子URL。结果可下载为结构化格式。</p>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon" style="background: #fd1d1d; color: white;">P</div>
+                        <div class="tool-card-title-wrap">
+                            <div class="tool-card-title">Instagram配置文件抓取工具--配置文件URL</div>
+                        </div>
+                    </div>
+                    <p class="tool-card-desc">从 Instagram 地图提取商家详细信息，包括营业时间、联系信息、位置、价格和评价等，不受 Instagram Places API 的限制。支持导出数据、API 调用或与第三方工具集成。</p>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon" style="background: #f77737; color: white;">R</div>
+                        <div class="tool-card-title-wrap">
+                            <div class="tool-card-title">Instagram Reel抓取工具--详情URL</div>
+                        </div>
+                    </div>
+                    <p class="tool-card-desc">Instagram Reel scraper提取作者用户名，标题，标签，评论/喜欢/观看/播放计数，发布日期，ID，缩略图URL，产品类型，持续时间，视频/音频链接，个人资料统计和付费合作伙伴状态。它通过URL工作，并以结构化格式导出结果。</p>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon" style="background: #405de6; color: white;">L</div>
+                        <div class="tool-card-title-wrap">
+                            <div class="tool-card-title">Instagram个人资料抓取工具--列表URL</div>
+                        </div>
+                    </div>
+                    <p class="tool-card-desc">Instagram个人资料抓取器可提取用户名/昵称、关联的Facebook ID、唯一账户ID、粉丝数量、总发帖数、商业/专业/已验证状态、个人简介、分类、关注人数以及热门帖子。它支持通过用户名进行抓取，并导出结构化结果。</p>
+                </div>
+
+                <div class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-card-icon" style="background: #5851db; color: white;">U</div>
+                        <div class="tool-card-title-wrap">
+                            <div class="tool-card-title">Instagram帖子抓取工具--URL</div>
+                        </div>
+                    </div>
+                    <p class="tool-card-desc">Instagram帖子刮板提取创建者用户名，帖子描述，标签，评论/喜欢计数，发布日期，媒体url，位置，帖子ID，个人资料链接和视频持续时间。它通过post URL工作并导出结构化结果。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Tools Section -->
+    <section class="section features-section" id="features">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">获取更专业的Instagram抓取工具</h2>
+                <p class="section-subtitle">如果您希望更高效地获取 Instagram 平台中的特定数据，例如商家信息、区域信息或细分行业数据，可以选择更加专业的抓取工具获取方案，更精准地提取所需信息，让 Instagram数据的应用更加简单高效。</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>Instagram Profile Scraper</h4>
+                    <p>高效抓取 Instagram 主页公开信息，帮助你快速获取品牌资料、商家线索与粉丝数据。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>Instagram Comments Scraper</h4>
+                    <p>批量抓取 Instagram 评论数据，快速洞察用户反馈、情绪趋势与真实市场需求。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>Instagram Hashtag Scraper</h4>
+                    <p>批量采集 Instagram 广告库数据，快速监控竞品广告创意、投放趋势与品牌动作。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>Instagram Follow Scraper</h4>
+                    <p>采集 Instagram 群组公开内容，帮助你挖掘垂直社群讨论、潜在客户需求与行业趋势。</p>
+                </div>
+
+                <div class="feature-item">
+                    <h4>Instagram Email Scraper</h4>
+                    <p>抓取Instagram Marketplace 商品信息，轻松追踪价格变化、热门商品与本地市场机会。</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="#" class="btn btn-primary">您需要其他工具？</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section" id="usecases">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">为什么要抓取Instagram数据</h2>
+            </div>
+            <div class="use-cases-grid">
+                <div class="use-case-item">
+                    <h4>KOL资源挖掘</h4>
+                    <ul>
+                        <li>通过公开的 Instagram 账号和内容数据，更高效地发掘合适的达人资源。结合粉丝规模、内容风格、互动表现和垂直领域匹配度，帮助您筛选真正适合品牌与营销活动的合作对象。</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-item">
+                    <h4>内容趋势洞察</h4>
+                    <ul>
+                        <li>追踪帖子、标签和 Reels 中正在获得关注的内容，及时发现上升话题、创意模式和高表现形式，帮助您围绕用户真实偏好的内容趋势优化发布策略。</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-item">
+                    <h4>用户声音分析</h4>
+                    <ul>
+                        <li>将评论、文案和互动行为转化为可执行的洞察，帮助您了解用户如何看待产品、活动和创作者，并据此优化品牌表达、市场定位和用户体验。</li>
+                    </ul>
+                </div>
+
+                <div class="use-case-item">
+                    <h4>营销表现对标</h4>
+                    <ul>
+                        <li>对比竞品账号、内容主题和营销活动表现，了解哪些内容更容易获得曝光和互动。通过真实市场数据评估自身 Instagram 策略，而不是依赖经验判断。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">常见问题</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>1. Instagram Scraper 可以抓取哪些数据？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Instagram Scraper 通常可以采集公开可见的账号主页信息、帖子内容、评论、标签内容、Reels 数据，以及部分互动指标。具体支持哪些字段，取决于工具能力和目标页面是否公开可访问。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>2. 使用 Instagram Scraper 需要登录 Instagram 吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        取决于具体工具。有些工具可以直接抓取公开数据，有些功能可能需要登录状态或额外配置。对于大多数用户来说，是否必须登录会直接影响上手成本。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>3. Instagram Scraper 最常见的用途是什么？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        最常见的用途包括达人筛选、竞品监控、爆款内容研究、评论情绪分析、标签趋势追踪，以及 Reels 内容表现分析。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>4. 可以抓取 Instagram 账号主页信息吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        可以。账号主页数据通常是用户最先需要的内容之一，比如简介、粉丝数、发帖量、外链、认证状态和账号类型，这些数据常用于达人评估和竞品研究。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>5. 不会写代码也能使用 Instagram Scraper吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        可以。很多用户更关心的是能不能直接输入账号链接、关键词或标签开始抓取，而不是自己开发爬虫。Coreclaw提供的Instagram Scraper完全支持低门槛使用。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>6. 抓取 Instagram 数据是否合规？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        合规性主要取决于数据是否公开、是否涉及个人信息，以及您的使用方式是否符合法律法规和平台规则。对于大多数用户来说，确保数据来源透明、用途合理，是使用 Instagram Scraper 时最重要的前提之一。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>7. Instagram Scraper 一般支持哪些导出格式？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Instagram Scraper 支持 CSV、JSON等常见导出格式，方便接入 CRM、BI 工具、数据库或 AI 工作流。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>8. Instagram Scraper 可以帮助我找KOL吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        可以。通过主页信息、发帖内容和互动表现，Instagram Scraper 可以帮助您更快筛选合适的达人，评估账号匹配度，并辅助做投放前的初步判断。
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>9. Instagram Scraper 和 Instagram API 有什么区别？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Instagram Scraper 更适合采集公开页面数据，用于竞品分析、内容研究和市场洞察；官方 API 更适合获取已授权或自有账号的数据，通常需要开发者配置和权限支持。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="section-inner">
+            <h2>立即开始</h2>
+            <p>3分钟内即可完成Instagram数据提取</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-white">免费注册</a>
+                <a href="#tools" class="btn btn-outline-white">浏览 Workers</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-inner">
+            <p>&copy; 2026 CoreClaw. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
