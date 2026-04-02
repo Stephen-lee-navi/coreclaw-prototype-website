@@ -258,35 +258,44 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
             gap: 2.4rem;
         }
 
         .feature-item {
             background: var(--color-neutral-background);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 3.2rem;
             border: 1px solid var(--color-neutral-border);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            box-shadow: var(--shadow-2);
+            border-color: var(--color-primary-action);
+            transform: translateY(-2px);
         }
 
         .feature-item h4 {
             font-size: 2rem;
             font-weight: 600;
             margin-bottom: 1.2rem;
-            color: var(--color-primary-action);
+            color: var(--color-neutral-text);
         }
 
         .feature-item p {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             line-height: 2.4rem;
             color: var(--color-neutral-text-muted);
         }
 
         /* Use Cases */
         .use-cases-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-            gap: 3.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.4rem;
+            max-width: 80rem;
+            margin: 0 auto;
         }
 
         .use-case-item {
@@ -370,6 +379,61 @@
             text-decoration: none;
         }
 
+        /* FAQ Section */
+        .faq-section {
+            background: var(--color-neutral-background-muted);
+            padding: 6rem 2.4rem;
+        }
+
+        .faq-list {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .faq-question {
+            padding: 2rem 2.4rem;
+            font-size: 1.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-answer {
+            padding: 0 2.4rem 2rem;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--color-neutral-text-muted);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
         /* Footer */
         .footer {
             background: var(--color-neutral-background-muted);
@@ -425,8 +489,13 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-inner">
-            <h1>Google Data Scraping Solutions</h1>
-            <p class="hero-subtitle">3分钟内即可完成谷歌数据抓取。</br>直接从谷歌收集搜索结果排名、关键词、地图广告等关键数据。非常适合大规模搜索引擎研究、市场探索和竞争对手分析。</p>
+            <h1>Google Scraper</h1>
+            <p class="hero-subtitle">3分钟内即可完成谷歌数据提取</p>
+            <p class="hero-description">直接采集 Google 搜索排名、关键词、地图和广告等核心数据，适用于大规模搜索研究、市场洞察和竞品分析，帮助您将数据快速转化为商业价值。</p>
+            <div class="hero-cta">
+                <button class="btn btn-primary">免费开始使用</button>
+                <button class="btn btn-secondary">浏览 Workers</button>
+            </div>
         </div>
     </section>
 
@@ -434,8 +503,7 @@
     <section class="section" id="tools">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">Available Google Scrapers</h2>
-                <p class="section-subtitle">已有工具</p>
+                <h2 class="section-title">满足不同需求的Google抓取工具</h2>
             </div>
             <div class="tools-grid">
                 <div class="tool-card">
@@ -485,8 +553,8 @@
     <section class="section features-section" id="features">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">Advanced Google Scrapers</h2>
-                <p class="section-subtitle">高级谷歌抓取工具</p>
+                <h2 class="section-title">获取更专业的Google抓取工具</h2>
+                <p class="section-subtitle">如果您希望更高效地获取 Google 平台中的特定数据，可以选择更加专业的抓取工具获取方案，更精准地提取所需信息。</p>
             </div>
             <div class="features-grid">
                 <div class="feature-item">
@@ -495,19 +563,22 @@
                 </div>
 
                 <div class="feature-item">
-                    <h4>人工智能驱动的线索评分</h4>
-                    <p>识别高价值企业，按活跃度和评价对潜在客户进行排名，筛选掉低质量的潜在客户</p>
+                    <h4>Google搜索结果抓取工具</h4>
+                    <p>批量采集 Google 搜索结果页数据，帮助您快速分析自然排名、关键词机会、广告展示和竞品动态。</p>
                 </div>
 
                 <div class="feature-item">
-                    <h4>Google地图竞争对手抓取</h4>
-                    <p>分析任何城市的主要竞争对手，比较评分、评论和密度，发现市场空白</p>
+                    <h4>Google商品抓取工具</h4>
+                    <p>自动采集 Google Shopping 商品数据，帮助您持续追踪价格变化、卖家分布、商品曝光和竞争格局。</p>
                 </div>
 
                 <div class="feature-item">
                     <h4>Google AI 概览抓取工具</h4>
                     <p>提取人工智能生成的答案，监控人工智能搜索可见性，针对人工智能引擎优化内容</p>
                 </div>
+            </div>
+            <div style="text-align: center; margin-top: 4rem;">
+                <a href="#" class="btn btn-primary">您需要其他工具？</a>
             </div>
         </div>
     </section>
@@ -516,8 +587,7 @@
     <section class="section" id="usecases">
         <div class="section-inner">
             <div class="section-header">
-                <h2 class="section-title">让谷歌数据助力业务增长</h2>
-                <p class="section-subtitle">多种应用场景，满足不同需求</p>
+                <h2 class="section-title">为什么需要谷歌数据？</h2>
             </div>
             <div class="use-cases-grid">
                 <div class="use-case-item">
@@ -555,11 +625,154 @@
         </div>
     </section>
 
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">常见问题</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>什么是Google数据？可以获取哪些内容？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Google平台数据通常指来自Google生态的数据，例如Google Maps、Google Search、Google Reviews等。<br><br>
+                        用户可以获取的数据包括：<br>
+                        商家信息（名称、地址、电话）<br>
+                        用户评价与评分<br>
+                        搜索排名与关键词数据<br>
+                        图片、营业时间、地理坐标等
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>是否可以在不使用Google官方API的情况下获取数据？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        可以。<br>
+                        许多用户会选择非官方方式（如网页抓取）获取数据，因为：<br>
+                        Google API存在调用限制和较高成本<br>
+                        使用CoreClaw的抓取工具可以获取更完整的数据集不需要API key或复杂配置
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Google数据抓取是否合法？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        通常情况下：<br>
+                        抓取公开数据是允许的<br>
+                        但需注意：避免采集敏感个人数据遵守Google Terms of Service，符合GDPR等隐私法规 
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Google平台数据抓取支持哪些筛选方式？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        常见筛选方式包括：<br>
+                        ●关键词<br>
+                        ●URL<br>
+                        ●列表URL等<br>
+                        适用于：<br>
+                        ●市场调研<br>
+                        ●竞品分析<br>
+                        ●本地SEO
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>是否可以导出Google数据到Excel或数据库？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        可以。<br>
+                        常见导出格式包括：<br>
+                        1.CSV（Excel）<br>
+                        2.JSON<br>
+                        这些格式方便：<br>
+                        ●数据分析<br>
+                        ●BI工具集成<br>
+                        ●AI模型训练 
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Google平台数据可以用于哪些业务场景？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        核心应用包括：<br>
+                        ●潜在客户挖掘<br>
+                        ●市场调研与竞品分析<br>
+                        ●本地SEO优化<br>
+                        ●AI训练数据集构建<br>
+                        ●商业选址分析<br>
+                        ●Google Maps数据尤其适合本地商业分析
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>如何提高Google数据采集的成功率？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        建议：<br>
+                        使用代理（如住宅IP）避免封禁<br>
+                        控制请求频率<br>
+                        使用自动化工具而非手动抓取<br>
+                        避免触发反爬机制<br>
+                        像Coreclaw的专业工具通常内置这些能力
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Google平台数据可以集成到我的系统或应用中吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        可以。<br>
+                        只要数据是结构化的（如JSON/CSV），就可以：<br>
+                        ●接入CRM系统<br>
+                        ●接入数据仓库<br>
+                        ●用于自动化营销工具<br>
+                        ●构建内部数据平台
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Google 平台上的商家信息是从哪里来的？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        Google 的商家数据主要来源于：<br>
+                        商家自行提交<br>
+                        用户贡献（评论、图片等） <br>
+                        第三方数据整合 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- CTA Section -->
     <section class="cta-section">
         <div class="section-inner">
             <h2>立即开始</h2>
-            <p>将谷歌数据转化为收入，而不仅仅是原始数据。</p>
+            <p>将谷歌数据转化为收入</p>
             <div class="cta-buttons">
                 <a href="#" class="btn btn-white">免费注册</a>
                 <a href="#tools" class="btn btn-outline-white">浏览 Workers</a>
@@ -573,5 +786,15 @@
             <p>&copy; 2026 CoreClaw. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
