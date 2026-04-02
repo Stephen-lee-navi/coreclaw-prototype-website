@@ -14,6 +14,7 @@
 
         html {
             font-size: 10px;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -29,16 +30,32 @@
         /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #a8b8f0 0%, #b8a8d8 100%);
-            min-height: 100vh;
+            min-height: 80vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.5;
         }
 
         .hero-inner {
             max-width: 80rem;
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
@@ -80,6 +97,190 @@
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
+        /* Stats Section */
+        .stats {
+            background: #ffffff;
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .stats-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.8rem;
+        }
+
+        .stat-label {
+            font-size: 1.6rem;
+            color: #6d7178;
+        }
+
+        /* Features Preview */
+        .features {
+            background: #f8f9fa;
+            padding: 8rem 2rem;
+        }
+
+        .features-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-title {
+            font-size: 3.2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.8rem;
+            color: #6d7178;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .feature-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, #a8b8f0 0%, #b8a8d8 100%);
+        }
+
+        .feature-card h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            font-size: 1.5rem;
+            color: #6d7178;
+            line-height: 2.2rem;
+        }
+
+        /* Platforms Preview */
+        .platforms {
+            background: #ffffff;
+            padding: 8rem 2rem;
+        }
+
+        .platforms-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .platforms-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .platform-badge {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.2rem 2rem;
+            background: #f8f9fa;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .platform-badge:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .platform-icon-small {
+            width: 3.2rem;
+            height: 3.2rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.8rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2123;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: #6d7178;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 {
@@ -90,6 +291,18 @@
             .btn {
                 padding: 1.4rem 2.8rem;
                 font-size: 1.6rem;
+            }
+
+            .stats-inner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-number {
+                font-size: 3rem;
             }
         }
     </style>
@@ -104,5 +317,107 @@
             </div>
         </div>
     </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-inner">
+            <div class="stat-item">
+                <div class="stat-number">8+</div>
+                <div class="stat-label">主流平台</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">抓取工具</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3min</div>
+                <div class="stat-label">快速上手</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">稳定运行</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-inner">
+            <div class="section-header">
+                <h2 class="section-title">核心能力</h2>
+                <p class="section-subtitle">强大的数据抓取能力，简单易用的操作体验</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>快速高效</h3>
+                    <p>无需编写代码，3分钟内即可完成数据抓取，快速获取所需数据</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>稳定可靠</h3>
+                    <p>内置智能代理和反限制技术，确保数据采集的稳定性和成功率</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>结构化数据</h3>
+                    <p>支持 CSV、JSON 等多种格式导出，方便接入您的分析系统</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platforms Section -->
+    <section class="platforms">
+        <div class="platforms-inner">
+            <div class="section-header">
+                <h2 class="section-title">支持平台</h2>
+                <p class="section-subtitle">覆盖主流数据平台，一站式数据解决方案</p>
+            </div>
+            <div class="platforms-grid">
+                <div class="platform-badge">
+                    <div class="platform-icon-small" style="background: #4285f4;">G</div>
+                    <span>Google</span>
+                </div>
+                <div class="platform-badge">
+                    <div class="platform-icon-small" style="background: #ff9900;">A</div>
+                    <span>Amazon</span>
+                </div>
+                <div class="platform-badge">
+                    <div class="platform-icon-small" style="background: #000000;">T</div>
+                    <span>TikTok</span>
+                </div>
+                <div class="platform-badge">
+                    <div class="platform-icon-small" style="background: #e4405f;">I</div>
+                    <span>Instagram</span>
+                </div>
+                <div class="platform-badge">
+                    <div class="platform-icon-small" style="background: #ff0000;">Y</div>
+                    <span>YouTube</span>
+                </div>
+                <div class="platform-badge">
+                    <div class="platform-icon-small" style="background: #1877f2;">F</div>
+                    <span>Facebook</span>
+                </div>
+                <div class="platform-badge">
+                    <div class="platform-icon-small" style="background: #ff4500;">R</div>
+                    <span>Reddit</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-inner">
+            <h2>准备好开始了吗？</h2>
+            <a href="/pages/" class="btn btn-white">查看所有原型</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 CoreClaw. All rights reserved.</p>
+    </footer>
 </body>
 </html>
