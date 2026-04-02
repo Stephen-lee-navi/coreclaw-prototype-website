@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon数据抓取工具 - CoreClaw</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-neutral-text: #1f2123;
+            --color-neutral-text-muted: #3d3f43;
+            --color-neutral-text-subtle: #6d7178;
+            --color-neutral-text-on-primary: #ffffff;
+            --color-neutral-background: #ffffff;
+            --color-neutral-background-muted: #f9f9fa;
+            --color-neutral-background-subtle: #f4f4f5;
+            --color-neutral-border: #d2d3d6;
+            --color-neutral-separator-subtle: #e4e5e6;
+            --color-primary-action: #ff9900;
+            --color-primary-action-hover: #e68a00;
+            --color-primary-background: #fff5e6;
+            --color-primary-black-action: #1f2123;
+            --color-primary-black-action-hover: #3d3f43;
+            --shadow-1: 1px 2px 2.5px -2.5px rgba(8, 8, 10, 0.32), 0.4px 0.8px 1px -1.2px rgba(8, 8, 10, 0.32), 0px 0.5px 1.5px 0px rgba(8, 8, 10, 0.32);
+            --shadow-2: 4px 8px 10.1px -2.5px rgba(8, 8, 10, 0.21), 1.7px 3.3px 4.2px -1.7px rgba(8, 8, 10, 0.21), 0.7px 1.4px 1.8px -0.8px rgba(8, 8, 10, 0.21), 0.3px 0.5px 0.7px 0px rgba(8, 8, 10, 0.21);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 10px;
+            scroll-padding-top: 8rem;
+        }
+
+        body {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-neutral-background);
+            border-bottom: 1px solid var(--color-neutral-separator-subtle);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 1.6rem 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--color-neutral-text);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 3.2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--color-primary-action);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            border-radius: 0.8rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary-action);
+            color: var(--color-neutral-text-on-primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-action-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-primary-black-action);
+            color: var(--color-neutral-text-on-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--color-primary-black-action-hover);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 12rem 2.4rem 6rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            max-width: 80rem;
+        }
+
+        .hero h1 {
+            font-size: 4.8rem;
+            line-height: 5.6rem;
+            font-weight: 700;
+            margin-bottom: 2.4rem;
+            color: var(--color-neutral-text);
+        }
+
+        .hero-subtitle {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: var(--color-neutral-text-muted);
+            margin-bottom: 1.6rem;
+        }
+
+        .hero-description {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            color: var(--color-neutral-text-subtle);
+            margin-bottom: 3.2rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.6rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 6rem 2.4rem;
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 3.2rem;
+            line-height: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.6rem;
+            color: var(--color-neutral-text);
+        }
+
+        .section-description {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            color: var(--color-neutral-text-subtle);
+            margin-bottom: 4rem;
+            max-width: 80rem;
+        }
+
+        /* Tools Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(36rem, 1fr));
+            gap: 2.4rem;
+            margin-bottom: 4rem;
+        }
+
+        .tool-card {
+            background: var(--color-neutral-background-muted);
+            border: 1px solid var(--color-neutral-separator-subtle);
+            border-radius: 1.2rem;
+            padding: 2.4rem;
+            transition: all 0.2s ease;
+        }
+
+        .tool-card:hover {
+            box-shadow: var(--shadow-2);
+            border-color: var(--color-neutral-border);
+        }
+
+        .tool-card h3 {
+            font-size: 2rem;
+            line-height: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--color-neutral-text);
+        }
+
+        .tool-card p {
+            font-size: 1.6rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Use Cases */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(28rem, 1fr));
+            gap: 2.4rem;
+        }
+
+        .use-case-card {
+            background: var(--color-neutral-background-muted);
+            border: 1px solid var(--color-neutral-separator-subtle);
+            border-radius: 1.2rem;
+            padding: 2.4rem;
+        }
+
+        .use-case-card h3 {
+            font-size: 2rem;
+            line-height: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--color-neutral-text);
+        }
+
+        .use-case-card p {
+            font-size: 1.6rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        .use-case-card ul {
+            margin-top: 1.2rem;
+            padding-left: 2rem;
+        }
+
+        .use-case-card li {
+            font-size: 1.6rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-subtle);
+            margin-bottom: 0.8rem;
+        }
+
+        /* FAQ Section */
+        .faq-list {
+            max-width: 80rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--color-neutral-separator-subtle);
+            padding: 2.4rem 0;
+        }
+
+        .faq-question {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            font-weight: 600;
+            color: var(--color-neutral-text);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 2.4rem;
+            color: var(--color-neutral-text-subtle);
+            transition: transform 0.2s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            font-size: 1.6rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-subtle);
+            margin-top: 1.2rem;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--color-primary-background) 0%, #ffffff 100%);
+            border-top: 1px solid var(--color-neutral-separator-subtle);
+            border-bottom: 1px solid var(--color-neutral-separator-subtle);
+            padding: 6rem 2.4rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 3.2rem;
+            line-height: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.6rem;
+            color: var(--color-neutral-text);
+        }
+
+        .cta-section p {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            color: var(--color-neutral-text-subtle);
+            margin-bottom: 3.2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-neutral-background-muted);
+            border-top: 1px solid var(--color-neutral-separator-subtle);
+            padding: 4rem 2.4rem;
+        }
+
+        .footer-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.2rem;
+                line-height: 4rem;
+            }
+
+            .section-title {
+                font-size: 2.4rem;
+                line-height: 3.2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta,
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="../index.html" class="logo">CoreClaw</a>
+            <nav class="nav">
+                <a href="test-page-one-merged.html">Store</a>
+                <a href="#tools">Tools</a>
+                <a href="#use-cases">Use Cases</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Amazon数据抓取工具</h1>
+            <p class="hero-subtitle">来自全球最大市场的电子商务情报</p>
+            <p class="hero-description">从亚马逊提取产品列表、价格、评论、卖家数据和类别排名。专为产品研究、价格监控和竞争对手追踪而打造。</p>
+            <div class="hero-cta">
+                <a href="#" class="btn btn-primary">免费试用</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Tools Section -->
+    <section class="section" id="tools">
+        <h2 class="section-title">快速找到适合您的Amazon抓取工具</h2>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h3>Amazon卖家数据抓取工具</h3>
+                <p>我们的亚马逊卖家数据抓取器提取抓取后的关键细节：个人资料URL，唯一ID，名称，概述，完整详细信息，反馈量，平均评级，电子邮件，电话号码，产品计数，企业地址，运费等。下载多种格式的结构化数据。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon评论抓取工具--URL</h3>
+                <p>我们的亚马逊产品采集工具可提取关键产品数据（如卖家、品牌、价格、ASIN、评论等）。该工具支持按URL（网页链接等多种采集方式，并允许您下载结构化的数据结果。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon产品抓取工具--ASIN</h3>
+                <p>我们的亚马逊产品采集工具可提取关键产品数据（如卖家、品牌、价格、ASIN、评论等）。该工具支持多种抓取方式（例如 ASIN），并允许您下载结构化的数据结果。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon产品抓取工具--UPC</h3>
+                <p>我们的亚马逊卖家数据抓取器提取抓取后的关键细节：个人资料URL，唯一ID，名称，概述，完整详细信息，反馈量，平均评级，电子邮件，电话号码，产品计数，企业地址，运费等。下载多种格式的结构化数据。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon产品抓取工具--URL</h3>
+                <p>我们的亚马逊产品采集工具可提取关键产品数据（如卖家、品牌、价格、ASIN、评论等）。该工具支持按 URL 等多种采集方式，并允许您下载结构化的数据结果。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon全球产品抓取工具--URL</h3>
+                <p>我们的亚马逊全球产品抓取工具可通过URL提取详细的产品数据（卖家、品牌、描述、价格、折扣、货币、评论、ASIN、排名等），并以结构化格式导出数据。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon卖家全球商品抓取工具--URL</h3>
+                <p>亚马逊爬虫工具支持 JSON/CSV 格式导出数据，整合住宅与数据中心 IP 智能切换节点，覆盖全球站点，内置动态代理池，可大规模并发爬取，提取商品标题、价格、评分等多维度信息，满足企业级数据采集需求。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon产品抓取工具--畅销榜</h3>
+                <p>本亚马逊采集工具能够提取卖家、品牌、定价、ASIN 和评论等核心数据。它支持包括畅销榜（Best Sellers）在内的多种抓取模式，并提供结构化结果下载。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon全球产品抓取工具--关键词</h3>
+                <p>本亚马逊采集工具能够提取卖家、品牌、定价、ASIN 和评论等核心数据。它支持包括畅销榜（Best Sellers）在内的多种抓取模式，并提供结构化结果下载。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon产品抓取工具--类目URL</h3>
+                <p>我们的亚马逊产品采集工具可提取详细的产品数据（如卖家、品牌、价格、ASIN、评论、类目、排名等）。该工具支持按类目 URL 进行采集，并提供多种结构化格式的结果下载。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon产品列表抓取工具--关键词</h3>
+                <p>我们的亚马逊产品采集工具可提取详细的产品数据（如卖家、品牌、价格、ASIN、评论、类目、排名等）。该工具支持按类目 URL 进行采集，并提供多种结构化格式的结果下载。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Professional Tools Section -->
+    <section class="section">
+        <h2 class="section-title">获取更专业的 Amazon 抓取工具</h2>
+        <p class="section-description">如果您希望更高效地获取 Amazon 平台中的特定数据，例如商品信息、价格变化、评论内容、卖家资料或搜索结果数据，可以选择更加专业的抓取工具方案，更精准地提取所需信息，让 Amazon 数据的应用更加简单高效。</p>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <h3>Amazon 商品抓取工具</h3>
+                <p>批量采集 Amazon 商品标题、价格、评分、图片、品牌和变体信息，帮助您快速开展选品分析和商品研究。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon 搜索结果抓取工具</h3>
+                <p>批量抓取 Amazon 搜索结果页数据，帮助您分析关键词排名、商品曝光位置和竞品分布情况。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon 价格监控抓取工具</h3>
+                <p>持续追踪 Amazon 商品价格、折扣和促销变化，帮助您及时掌握市场波动和竞品定价策略。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon 卖家抓取工具</h3>
+                <p>采集 Amazon 卖家信息、店铺表现和商品分布，帮助您分析卖家结构、渠道布局和竞争格局。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon 类目排名抓取工具</h3>
+                <p>抓取 Amazon 类目排名和热销商品数据，帮助您发现高潜力品类、畅销趋势和市场机会。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon 问答抓取工具</h3>
+                <p>提取 Amazon 商品问答内容，帮助您了解用户购买疑虑、核心关注点和潜在转化障碍。</p>
+            </div>
+            <div class="tool-card">
+                <h3>Amazon 库存与配送信息抓取工具</h3>
+                <p>监控商品库存状态、配送方式和发货信息，帮助您跟踪供给变化并优化运营决策。</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3.2rem;">
+            <a href="#" class="btn btn-secondary">您需要其他工具？</a>
+        </div>
+    </section>
+
+    <!-- Why Scrape Section -->
+    <section class="section" id="use-cases">
+        <h2 class="section-title">为什么要抓取 Amazon 数据？</h2>
+        <div class="use-cases-grid">
+            <div class="use-case-card">
+                <h3>选品与市场发现</h3>
+                <ul>
+                    <li>追踪热销商品、类目排名和搜索结果变化，帮助您更快发现增长中的品类和潜力产品。</li>
+                    <li>借助 Amazon 数据，您可以更准确地判断市场需求、竞争强度和进入机会，降低选品决策的不确定性。</li>
+                </ul>
+            </div>
+            <div class="use-case-card">
+                <h3>价格与竞争监控</h3>
+                <ul>
+                    <li>持续监测商品价格、折扣活动、卖家变化和 Buy Box 竞争情况，帮助您掌握市场动态。</li>
+                    <li>通过长期跟踪竞品定价与促销节奏，您可以更及时地调整售价策略和销售节奏。</li>
+                </ul>
+            </div>
+            <div class="use-case-card">
+                <h3>用户需求洞察</h3>
+                <ul>
+                    <li>分析评论、评分和问答内容，帮助您了解用户最在意的卖点、痛点和购买顾虑。</li>
+                    <li>将真实反馈转化为产品优化、页面改进和营销表达的依据，更精准地回应市场需求。</li>
+                </ul>
+            </div>
+            <div class="use-case-card">
+                <h3>卖家与渠道研究</h3>
+                <ul>
+                    <li>系统收集卖家信息、商品分布和店铺表现，帮助您识别主要竞争者和渠道结构。</li>
+                    <li>通过对比不同卖家的运营布局和商品策略，您可以更清楚地判断市场格局与差异化空间。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" id="faq">
+        <h2 class="section-title">常见问题</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">Amazon Scraper 可以抓取哪些数据？</div>
+                <div class="faq-answer">Amazon Scraper 通常可以采集商品标题、价格、评分、评论、图片、品牌、变体、类目排名、搜索结果、卖家信息、问答内容，以及部分库存和配送信息。具体支持哪些字段，取决于工具能力和目标页面类型。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Amazon Scraper 可以按 ASIN、关键词或类目抓取吗？</div>
+                <div class="faq-answer">可以。很多 Amazon 数据采集任务都会围绕 ASIN、关键词或类目展开，不同方式适合不同场景：ASIN 适合精确追踪单品，关键词适合看搜索竞争，类目更适合做市场扫描和选品研究。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Amazon 搜索结果抓取适合做什么？</div>
+                <div class="faq-answer">Amazon 搜索结果抓取非常适合用于关键词排名监控、竞品曝光分析、广告与自然位分布研究，以及评估某类商品在搜索结果中的竞争强度。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Amazon 评论抓取能帮助我解决什么问题？</div>
+                <div class="faq-answer">评论数据最适合用来提炼用户痛点、识别高频抱怨、发现产品卖点，并帮助您优化商品描述、营销文案和产品迭代方向。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">可以监控 Amazon 商品价格和折扣变化吗？</div>
+                <div class="faq-answer">可以。很多用户会持续跟踪价格、优惠券、促销活动和历史波动，以便更快掌握竞品策略、调整售价并判断最佳销售时机。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Amazon Scraper 可以跟踪卖家和 Buy Box 变化吗？</div>
+                <div class="faq-answer">可以。对于电商运营团队来说，卖家数量、卖家切换和 Buy Box 归属变化，往往是判断竞争压力和渠道变化的重要信号。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Amazon 数据适合做选品分析吗？</div>
+                <div class="faq-answer">非常适合。通过结合类目排名、搜索结果、评论反馈、价格区间和卖家分布，您可以更全面地评估一个产品是否具备进入价值和增长空间。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Amazon Scraper 支持多站点数据采集吗？</div>
+                <div class="faq-answer">通常可以。对于跨境电商和国际市场研究来说，不同国家站点的数据差异非常重要，因此多站点采集能力会直接影响市场对比和区域分析效果。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">如何选择适合自己业务的 Amazon Scraper？</div>
+                <div class="faq-answer">先看您的目标数据是什么。做选品研究，就优先看商品、类目和搜索结果数据；做竞品监控，就重点关注价格、卖家和排名变化；做用户洞察，则更应关注评论和问答数据。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">抓取 Amazon 数据是否合规？</div>
+                <div class="faq-answer">合规性通常取决于抓取的数据类型、是否涉及个人信息、具体使用方式，以及是否遵守适用法律和平台规则。对于大多数用户来说，确保数据来源透明、用途合理，是使用 Amazon Scraper 时最重要的前提之一。</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>立即开始</h2>
+        <p>3分钟内即可完成 Amazon 数据抓取</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn btn-primary">免费注册</a>
+            <a href="#" class="btn btn-secondary">浏览 Workers</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <p>&copy; 2024 CoreClaw. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
