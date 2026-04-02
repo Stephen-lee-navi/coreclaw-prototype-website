@@ -3,113 +3,509 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoreClaw Store - 网站导航</title>
+    <title>CoreClaw - 专业数据抓取工具平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-neutral-text: #1f2123;
+            --color-neutral-text-muted: #3d3f43;
+            --color-neutral-text-subtle: #6d7178;
+            --color-neutral-text-on-primary: #ffffff;
+            --color-neutral-background: #ffffff;
+            --color-neutral-background-muted: #f9f9fa;
+            --color-neutral-border: #d2d3d6;
+            --color-primary-action: #1672eb;
+            --color-primary-action-hover: #5290f9;
+            --color-primary-black-action: #1f2123;
+            --color-primary-black-action-hover: #3d3f43;
+            --shadow-1: 1px 2px 2.5px -2.5px rgba(8, 8, 10, 0.32), 0.4px 0.8px 1px -1.2px rgba(8, 8, 10, 0.32), 0px 0.5px 1.5px 0px rgba(8, 8, 10, 0.32);
+            --shadow-2: 4px 8px 10.1px -2.5px rgba(8, 8, 10, 0.21), 1.7px 3.3px 4.2px -1.7px rgba(8, 8, 10, 0.21), 0.7px 1.4px 1.8px -0.8px rgba(8, 8, 10, 0.21), 0.3px 0.5px 0.7px 0px rgba(8, 8, 10, 0.21);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
+        html {
+            font-size: 10px;
+            scroll-padding-top: 8rem;
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-neutral-background);
+            border-bottom: 1px solid var(--color-neutral-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 1.6rem 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--color-neutral-text);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 3.2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--color-primary-action);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary-black-action);
+            color: var(--color-neutral-text-on-primary);
+            box-shadow: var(--shadow-1);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-black-action-hover);
+            box-shadow: var(--shadow-2);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-primary-black-action-hover);
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            padding: 16rem 2.4rem 10rem;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.8rem;
+            line-height: 6.8rem;
+            font-weight: 700;
+            margin-bottom: 2.4rem;
+            color: white;
+        }
+
+        .hero-subtitle {
+            font-size: 2.4rem;
+            line-height: 3.6rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 4rem;
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2.4rem;
+            background: var(--color-neutral-background-muted);
+        }
+
+        .features-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-title {
+            font-size: 4rem;
+            line-height: 5rem;
+            font-weight: 600;
+            margin-bottom: 1.6rem;
+        }
+
+        .section-subtitle {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+            gap: 3.2rem;
+        }
+
+        .feature-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3.2rem;
+            border: 1px solid var(--color-neutral-border);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--shadow-2);
+            border-color: var(--color-primary-action);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            font-size: 3rem;
+            margin: 0 auto 2rem;
         }
-        .container {
-            background: white;
-            border-radius: 20px;
-            padding: 4rem;
-            max-width: 600px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+
+        .feature-card h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: var(--color-neutral-text);
         }
-        h1 {
-            font-size: 2.5rem;
-            color: #1f2123;
-            margin-bottom: 1rem;
-            text-align: center;
+
+        .feature-card p {
+            font-size: 1.6rem;
+            line-height: 2.4rem;
+            color: var(--color-neutral-text-muted);
         }
-        .subtitle {
-            color: #6d7178;
-            text-align: center;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
+
+        /* Platforms Section */
+        .platforms {
+            padding: 8rem 2.4rem;
         }
-        .page-list {
-            list-style: none;
+
+        .platforms-inner {
+            max-width: 120rem;
+            margin: 0 auto;
         }
-        .page-list li {
-            margin-bottom: 1rem;
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+            gap: 2.4rem;
         }
-        .page-list a {
-            display: block;
-            padding: 1.2rem 1.5rem;
-            background: #f4f4f5;
+
+        .platform-card {
+            background: var(--color-neutral-background-muted);
             border-radius: 12px;
-            color: #1672eb;
-            text-decoration: none;
-            font-weight: 500;
+            padding: 2.4rem;
+            border: 1px solid var(--color-neutral-border);
             transition: all 0.2s ease;
-            border: 2px solid transparent;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
-        .page-list a:hover {
-            background: #ecf1ff;
-            border-color: #1672eb;
+
+        .platform-card:hover {
+            border-color: var(--color-primary-action);
+            box-shadow: var(--shadow-2);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(22, 114, 235, 0.2);
         }
-        .page-list a::after {
-            content: "";
-            float: right;
-            opacity: 0.5;
+
+        .platform-icon {
+            width: 4.8rem;
+            height: 4.8rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 1.6rem;
         }
-        .footer {
-            margin-top: 3rem;
+
+        .platform-card h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--color-neutral-text);
+        }
+
+        .platform-card p {
+            font-size: 1.4rem;
+            line-height: 2rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 8rem 2.4rem;
             text-align: center;
-            color: #6d7178;
-            font-size: 0.9rem;
+        }
+
+        .cta-section h2 {
+            font-size: 4rem;
+            line-height: 5rem;
+            margin-bottom: 1.6rem;
+        }
+
+        .cta-section p {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: var(--color-neutral-text-muted);
+            margin-bottom: 3.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-neutral-background-muted);
+            padding: 4rem 2.4rem;
+            text-align: center;
+            border-top: 1px solid var(--color-neutral-border);
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.6rem;
+                line-height: 4.6rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.8rem;
+                line-height: 2.8rem;
+            }
+
+            .section-title {
+                font-size: 3.2rem;
+                line-height: 4.2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>CoreClaw Store</h1>
-        <p class="subtitle">网络爬虫和自动化工具市场</p>
-        
-        <ul class="page-list">
-            <li>
-                <a href="pages/test-page-one-merged.html">test-page-one-merged.html--【商店页面原型】</a>
-            </li>
-            <li>
-                <a href="pages/google-data-scraping-solutions.html">google-data-scraping-solutions.html--【Google数据抓取方案】</a>
-            </li>
-            <li>
-                <a href="pages/instagram-data-scraping-solutions.html">instagram-data-scraping-solutions.html--【Instagram数据抓取方案】</a>
-            </li>
-            <li>
-                <a href="pages/youtube-data-scraping-solutions.html">youtube-data-scraping-solutions.html--【YouTube数据抓取方案】</a>
-            </li>
-            <li>
-                <a href="pages/facebook-data-scraping-solutions.html">facebook-data-scraping-solutions.html--【Facebook数据抓取方案】</a>
-            </li>
-            <li>
-                <a href="pages/reddit-data-scraping-solutions.html">reddit-data-scraping-solutions.html--【Reddit数据抓取方案】</a>
-            </li>
-            <li>
-                <a href="pages/amazon-data-scraping-solutions.html">amazon-data-scraping-solutions.html--【Amazon数据抓取方案】</a>
-            </li>
-            <li>
-                <a href="pages/tiktok-data-scraping-solutions.html">tiktok-data-scraping-solutions.html--【TikTok数据抓取方案】</a>
-            </li>
-        </ul>
-        
-        <div class="footer">
-            <p>后续可以在这里添加更多页面链接</p>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="/" class="logo">CoreClaw</a>
+            <nav class="nav">
+                <a href="/pages/">浏览工具</a>
+                <a href="#features">功能特性</a>
+                <a href="#platforms">支持平台</a>
+                <a href="#" class="btn btn-secondary">登录</a>
+                <a href="#" class="btn btn-primary">免费试用</a>
+            </nav>
         </div>
-    </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>专业数据抓取工具平台</h1>
+            <p class="hero-subtitle">高效抓取 Google、Amazon、TikTok、Instagram 等主流平台数据，助力市场研究、竞品分析和商业决策</p>
+            <div class="hero-cta">
+                <a href="/pages/" class="btn btn-white">浏览所有工具</a>
+                <a href="#" class="btn btn-outline-white">免费注册</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-inner">
+            <div class="section-header">
+                <h2 class="section-title">为什么选择 CoreClaw</h2>
+                <p class="section-subtitle">强大的数据抓取能力，简单易用的操作体验</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #ecf1ff; color: #1672eb;">⚡</div>
+                    <h3>快速高效</h3>
+                    <p>3分钟内即可完成数据抓取，无需编写代码，快速获取所需数据</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #e6f7ed; color: #34a853;">🔒</div>
+                    <h3>稳定可靠</h3>
+                    <p>内置智能代理和反限制技术，确保数据采集的稳定性和成功率</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #fff5e6; color: #ff9900;">📊</div>
+                    <h3>结构化数据</h3>
+                    <p>支持 CSV、JSON 等多种格式导出，方便接入您的分析系统</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: #ffe5dc; color: #ff4500;">🌐</div>
+                    <h3>多平台支持</h3>
+                    <p>覆盖 Google、Amazon、TikTok、Instagram 等主流平台，一站式数据解决方案</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Platforms Section -->
+    <section class="platforms" id="platforms">
+        <div class="platforms-inner">
+            <div class="section-header">
+                <h2 class="section-title">支持的数据平台</h2>
+                <p class="section-subtitle">点击查看各平台的详细抓取工具</p>
+            </div>
+            <div class="platforms-grid">
+                <a href="/pages/google-data-scraping-solutions.html" class="platform-card">
+                    <div class="platform-icon" style="background: #4285f4; color: white;">G</div>
+                    <h4>Google</h4>
+                    <p>搜索、地图、商店数据抓取</p>
+                </a>
+                <a href="/pages/amazon-data-scraping-solutions.html" class="platform-card">
+                    <div class="platform-icon" style="background: #ff9900; color: white;">A</div>
+                    <h4>Amazon</h4>
+                    <p>商品、评论、卖家数据抓取</p>
+                </a>
+                <a href="/pages/tiktok-data-scraping-solutions.html" class="platform-card">
+                    <div class="platform-icon" style="background: #000000; color: white;">T</div>
+                    <h4>TikTok</h4>
+                    <p>视频、账号、趋势数据抓取</p>
+                </a>
+                <a href="/pages/instagram-data-scraping-solutions.html" class="platform-card">
+                    <div class="platform-icon" style="background: #e4405f; color: white;">I</div>
+                    <h4>Instagram</h4>
+                    <p>帖子、用户、标签数据抓取</p>
+                </a>
+                <a href="/pages/youtube-data-scraping-solutions.html" class="platform-card">
+                    <div class="platform-icon" style="background: #ff0000; color: white;">Y</div>
+                    <h4>YouTube</h4>
+                    <p>视频、频道、评论数据抓取</p>
+                </a>
+                <a href="/pages/facebook-data-scraping-solutions.html" class="platform-card">
+                    <div class="platform-icon" style="background: #1877f2; color: white;">F</div>
+                    <h4>Facebook</h4>
+                    <p>页面、广告、群组数据抓取</p>
+                </a>
+                <a href="/pages/reddit-data-scraping-solutions.html" class="platform-card">
+                    <div class="platform-icon" style="background: #ff4500; color: white;">R</div>
+                    <h4>Reddit</h4>
+                    <p>帖子、评论、社区数据抓取</p>
+                </a>
+                <a href="/pages/" class="platform-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <div class="platform-icon" style="background: rgba(255,255,255,0.2); color: white;">→</div>
+                    <h4 style="color: white;">查看全部</h4>
+                    <p style="color: rgba(255,255,255,0.8);">浏览所有平台工具</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="section-inner">
+            <h2>准备好开始了吗？</h2>
+            <p>立即体验 CoreClaw 的强大数据抓取能力</p>
+            <div class="hero-cta">
+                <a href="/pages/" class="btn btn-primary">浏览所有工具</a>
+                <a href="#" class="btn btn-secondary">免费注册</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 CoreClaw. All rights reserved.</p>
+    </footer>
 </body>
 </html>
