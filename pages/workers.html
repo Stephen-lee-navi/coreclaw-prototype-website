@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CafeScraper Workers | 云端网络数据自动化</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-neutral-text: #1f2123;
+            --color-neutral-text-muted: #3d3f43;
+            --color-neutral-text-subtle: #6d7178;
+            --color-neutral-text-on-primary: #ffffff;
+            --color-neutral-background: #ffffff;
+            --color-neutral-background-muted: #f9f9fa;
+            --color-neutral-background-subtle: #f4f4f5;
+            --color-neutral-border: #d2d3d6;
+            --color-neutral-separator-subtle: #e4e5e6;
+            --color-primary-action: #1672eb;
+            --color-primary-action-hover: #5290f9;
+            --color-primary-background: #ecf1ff;
+            --color-primary-black-action: #1f2123;
+            --color-primary-black-action-hover: #3d3f43;
+            --shadow-1: 1px 2px 2.5px -2.5px rgba(8, 8, 10, 0.32), 0.4px 0.8px 1px -1.2px rgba(8, 8, 10, 0.32), 0px 0.5px 1.5px 0px rgba(8, 8, 10, 0.32);
+            --shadow-2: 4px 8px 10.1px -2.5px rgba(8, 8, 10, 0.21), 1.7px 3.3px 4.2px -1.7px rgba(8, 8, 10, 0.21), 0.7px 1.4px 1.8px -0.8px rgba(8, 8, 10, 0.21), 0.3px 0.5px 0.7px 0px rgba(8, 8, 10, 0.21);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 10px;
+            scroll-padding-top: 8rem;
+        }
+
+        body {
+            font-size: 1.8rem;
+            line-height: 2.8rem;
+            font-weight: 400;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-neutral-background);
+            border-bottom: 1px solid var(--color-neutral-separator-subtle);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 1.6rem 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--color-neutral-text);
+            text-decoration: none;
+        }
+
+        .nav {
+            display: flex;
+            gap: 3.2rem;
+            align-items: center;
+        }
+
+        .nav a {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .nav a:hover {
+            color: var(--color-primary-action);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.6rem;
+            font-weight: 500;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.12s ease-out;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-primary-black-action);
+            color: var(--color-neutral-text-on-primary);
+            box-shadow: var(--shadow-1);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-black-action-hover);
+            box-shadow: var(--shadow-2);
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: var(--color-neutral-background);
+            color: var(--color-neutral-text);
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-primary-black-action-hover);
+            text-decoration: none;
+        }
+
+        .btn-google {
+            background: #4285f4;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-google:hover {
+            background: #3367d6;
+            text-decoration: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 12rem 2.4rem 6rem;
+            text-align: center;
+        }
+
+        .hero-inner {
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 5.8rem;
+            line-height: 6.8rem;
+            font-weight: 400;
+            margin-bottom: 2.4rem;
+            color: var(--color-neutral-text);
+        }
+
+        .hero-subtitle {
+            font-size: 2.4rem;
+            line-height: 3.6rem;
+            color: var(--color-neutral-text-muted);
+            margin-bottom: 4rem;
+            max-width: 80rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero-note {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Section */
+        .section {
+            padding: 6rem 2.4rem;
+        }
+
+        .section-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 4.8rem;
+            line-height: 5.8rem;
+            font-weight: 400;
+            margin-bottom: 1.6rem;
+        }
+
+        .section-subtitle {
+            font-size: 2rem;
+            line-height: 3rem;
+            color: var(--color-neutral-text-muted);
+        }
+
+        /* Steps Section */
+        .steps-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            background: var(--color-neutral-background);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .step-number {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 2.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+        }
+
+        .step-card h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .step-card p {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Monetize Section */
+        .monetize-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .monetize-section h2 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .monetize-section p {
+            font-size: 2rem;
+            line-height: 3rem;
+            max-width: 80rem;
+            margin: 0 auto 3rem;
+            opacity: 0.9;
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Tech Stack Section */
+        .tech-section {
+            background: var(--color-neutral-background);
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .tech-card {
+            background: var(--color-neutral-background-muted);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .tech-icon {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #a8b8f0 0%, #b8a8d8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin: 0 auto 2rem;
+        }
+
+        .tech-card h3 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-card p {
+            font-size: 1.6rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.4rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.4rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            padding: 2.4rem;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .feature-item h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--color-neutral-text);
+        }
+
+        .feature-item p {
+            font-size: 1.5rem;
+            color: var(--color-neutral-text-muted);
+            line-height: 2.2rem;
+        }
+
+        /* Store Section */
+        .store-section {
+            background: var(--color-neutral-background);
+            text-align: center;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-list {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--color-neutral-background);
+            border-radius: 12px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            border: 1px solid var(--color-neutral-border);
+        }
+
+        .faq-question {
+            padding: 2rem 2.4rem;
+            font-size: 1.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .faq-question:hover {
+            background: var(--color-neutral-background-muted);
+        }
+
+        .faq-answer {
+            padding: 0 2.4rem 2rem;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: var(--color-neutral-text-muted);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 6rem 2.4rem;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 3.6rem;
+            color: white;
+            margin-bottom: 1.6rem;
+        }
+
+        .cta-section p {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3.2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--color-neutral-background-muted);
+            padding: 4rem 2.4rem;
+            text-align: center;
+            border-top: 1px solid var(--color-neutral-border);
+        }
+
+        .footer p {
+            font-size: 1.4rem;
+            color: var(--color-neutral-text-subtle);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.6rem;
+                line-height: 4.6rem;
+            }
+
+            .section-title {
+                font-size: 3.2rem;
+                line-height: 4.2rem;
+            }
+
+            .steps-grid,
+            .tech-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">CafeScraper</a>
+            <nav class="nav">
+                <a href="#">Store</a>
+                <a href="#">Workers</a>
+                <a href="#" class="btn btn-secondary">登录</a>
+                <a href="#" class="btn btn-primary">注册</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>CafeScraper Workers</h1>
+            <p class="hero-subtitle">CafeScraper Workers提供预置的网页爬虫，无需编码即可抓取任何网站。赋能AI与业务的Web数据自动化引擎。无需管理基础设施，即可在云端或本地高效运行，轻松实现网页抓取、处理数据与API集成。</p>
+            <div class="hero-cta">
+                <a href="#" class="btn btn-secondary">浏览 Workers</a>
+                <a href="#" class="btn btn-google">使用谷歌账户注册</a>
+            </div>
+            <p class="hero-note">无需信用卡。</p>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="section steps-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">无需编码，数据即刻到手</h2>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>选择抓取工具</h3>
+                    <p>浏览 CafeScraper Store ，选择适合您业务的抓取工具。</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>配置您的任务</h3>
+                    <p>设置目标页面、关键词、位置或预算上限等参数。</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>运行并导出数据</h3>
+                    <p>一键运行并直接将 CSV/JSON 结构化数据导出至您的工作流中。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Monetize Section -->
+    <section class="section monetize-section">
+        <div class="section-inner">
+            <h2>发布Workers并获得持续收益</h2>
+            <p>加入CafeScraper 的开发者行列，发布并维护高质量的 Workers。您只需专注于构建爬虫脚本，我们为您提供基础设施，处理计费、销售和账单，让每一行代码都产生价值。</p>
+            <a href="#" class="btn btn-white">分享您的第一个Worker</a>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="section tech-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">完整的数据抓取技术栈</h2>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">🌐</div>
+                    <h3>代理</h3>
+                    <p>内置覆盖 190+ 国家/地区的轮换住宅，自动绕过复杂的反爬验证与CAPTCHA。</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">🔗</div>
+                    <h3>集成</h3>
+                    <p>将 CafeScraper Workers 与您常用的工具、API 和云服务集成，触发自动化工作流并实时传输数据。</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">💾</div>
+                    <h3>存储</h3>
+                    <p>安全且可扩展的云数据存储。您可以存储从图像、键值到结构化等任意文件类型，数据永远不会丢失。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section features-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">不仅仅是抓取</h2>
+                <p class="section-subtitle">利用 CafeScraper 全面、可扩展且合规的 Workers 提取网络数据</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>长时间运行</h4>
+                    <p>无论任务需要运行几分钟还是几小时，我们的 Workers 都能在云端稳定完成，不会因超时而中断。</p>
+                </div>
+                <div class="feature-item">
+                    <h4>可视化输入</h4>
+                    <p>CafeScraper 为每个 Workers 自动生成直观的操作面板。即使是零代码经验的小白都能执行抓取。</p>
+                </div>
+                <div class="feature-item">
+                    <h4>透明计费</h4>
+                    <p>在运行前预估成本、设置预算上限，并通过账单追溯每一分钱。</p>
+                </div>
+                <div class="feature-item">
+                    <h4>灵活配置内存和CPU</h4>
+                    <p>为每个 Worker 配置所需的内存容量，CPU 算力将随之自动扩展。</p>
+                </div>
+                <div class="feature-item">
+                    <h4>多种数据格式</h4>
+                    <p>提供 JSON或CSV格式的数据，以满足您的需求。</p>
+                </div>
+                <div class="feature-item">
+                    <h4>全天候支持</h4>
+                    <p>不确定选择哪个 Worker？我们的客户专家将随时为您提供专业建议与技术支持。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Store Section -->
+    <section class="section store-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">CafeScraper商店</h2>
+            </div>
+            <a href="/pages/" class="btn btn-primary">浏览商店</a>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">常见问题</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>什么是 Workers？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">Workers是运行在CafeScraper云端的自动化机器人。无论是抓取网页、处理数据还是连接API，Workers 都能不眠不休地为您执行任务。您无需购买服务器，也无需懂代码运维，只需下达指令，剩下的交给它们。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>如何使用 CafeScraper Workers？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">只需要注册一个 CafeScraper 账户，然后在 Store 中直接选择符合业务需求的现成解决方案（例如亚马逊、谷歌搜索、YouTube等）。设置输入内容，点击" 开始"， 然后等待数据导入即可。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Workers 可以返回哪些数据格式？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">Workers 支持多种格式返回数据，确保与您的工作流无缝对接：<br>JSON：支持复杂的嵌套对象，保留原始网页的逻辑层级。<br>CSV：自动将抓取结果转换为行列清晰的表格文件。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>我需要自己管理服务器吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">不需要。CafeScraper平台为您处理所有底层基础设施，包括服务器、智能代理轮换以绕过反爬验证，以及数据的安全存储。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>开发者可以从自己编写的 Actors 中获益吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">可以的。开发者不仅可以将代码托管在 CafeScraper 上自用，还可以将其发布到 CafeScraper Store 并设定收费标准。当其他用户使用您的 Workers 时，您就可以获得持续的收益分成。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="section-inner">
+            <h2>启动您的第一个 Worker</h2>
+            <p>几分钟内即可实现网络数据自动采集。</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-white">开始免费试用</a>
+                <a href="#" class="btn btn-outline-white">浏览 Worker</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 CafeScraper. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
