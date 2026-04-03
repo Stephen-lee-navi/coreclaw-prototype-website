@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>现成数据集下载 | 电商/社媒结构化数据 | CafeScraper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            font-size: 10px;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 1.6rem;
+            line-height: 1.6;
+            color: #1f2123;
+            background: #ffffff;
+        }
+        
+        /* Header */
+        .header {
+            background: #ffffff;
+            border-bottom: 1px solid #e4e5e6;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        .header-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+            padding: 1.6rem 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: #1f2123;
+            text-decoration: none;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 3.2rem;
+            align-items: center;
+        }
+        
+        .nav a {
+            font-size: 1.5rem;
+            color: #3d3f43;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        
+        .nav a:hover {
+            color: #667eea;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem 2.4rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #ffffff;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: #ffffff;
+        }
+        
+        .btn-white {
+            background: #ffffff;
+            color: #667eea;
+        }
+        
+        .btn-white:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 14rem 2.4rem 8rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(102, 126, 234, 0.1) 0%, transparent 50%);
+        }
+        
+        .hero-inner {
+            max-width: 90rem;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #1f2123;
+        }
+        
+        .hero h1 span {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 2rem;
+            color: #6d7178;
+            margin-bottom: 3rem;
+            max-width: 70rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+        }
+        
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.4rem;
+            color: #6d7178;
+        }
+        
+        .trust-badge .stars {
+            color: #f5a623;
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 2.4rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.4rem;
+        }
+        
+        .stat-label {
+            font-size: 1.3rem;
+            color: #6d7178;
+        }
+        
+        /* Section Common */
+        .section {
+            padding: 8rem 2.4rem;
+        }
+        
+        .section-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+        
+        .section-title {
+            font-size: 3.6rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: #1f2123;
+        }
+        
+        .section-subtitle {
+            font-size: 1.8rem;
+            color: #6d7178;
+            max-width: 60rem;
+            margin: 0 auto;
+        }
+        
+        /* Datasets Table */
+        .datasets-section {
+            background: #ffffff;
+        }
+        
+        .datasets-table {
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 2rem 3rem;
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #6d7178;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 2rem 3rem;
+            border-bottom: 1px solid #e4e5e6;
+            align-items: center;
+            transition: background 0.2s ease;
+        }
+        
+        .table-row:hover {
+            background: #f8f9fa;
+        }
+        
+        .table-row:last-child {
+            border-bottom: none;
+        }
+        
+        .dataset-name {
+            font-weight: 600;
+            color: #1f2123;
+            font-size: 1.6rem;
+        }
+        
+        .dataset-platform {
+            color: #6d7178;
+            font-size: 1.4rem;
+        }
+        
+        .dataset-count {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.8rem 1.6rem;
+            font-size: 1.3rem;
+        }
+        
+        /* Custom Data Section */
+        .custom-section {
+            background: #f8f9fa;
+        }
+        
+        .custom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .custom-content h3 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1.6rem;
+        }
+        
+        .custom-content p {
+            font-size: 1.7rem;
+            color: #6d7178;
+            margin-bottom: 2rem;
+        }
+        
+        .custom-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .custom-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+        }
+        
+        .custom-feature-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        
+        .custom-feature h4 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+        
+        .custom-feature p {
+            font-size: 1.4rem;
+            color: #6d7178;
+            margin: 0;
+        }
+        
+        .service-list {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .service-list h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e4e5e6;
+        }
+        
+        .service-item {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .service-item:last-child {
+            border-bottom: none;
+        }
+        
+        .service-icon {
+            width: 3.2rem;
+            height: 3.2rem;
+            border-radius: 8px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+        
+        .service-item strong {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.2rem;
+        }
+        
+        .service-item span {
+            font-size: 1.3rem;
+            color: #6d7178;
+        }
+        
+        /* Two Ways Section */
+        .ways-section {
+            background: #ffffff;
+        }
+        
+        .ways-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .way-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            padding: 4rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .way-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.15);
+        }
+        
+        .way-card h3 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1f2123;
+        }
+        
+        .way-card .subtitle {
+            font-size: 1.6rem;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .way-features {
+            margin-bottom: 3rem;
+        }
+        
+        .way-feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            font-size: 1.5rem;
+            color: #3d3f43;
+        }
+        
+        .way-feature::before {
+            content: '✓';
+            width: 2.4rem;
+            height: 2.4rem;
+            border-radius: 50%;
+            background: #e6f7ed;
+            color: #34a853;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .way-uses {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .way-uses h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #1f2123;
+        }
+        
+        .way-use-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 0.8rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .way-use-item .icon {
+            font-size: 1.8rem;
+        }
+        
+        .way-use-item strong {
+            display: block;
+            color: #1f2123;
+            margin-bottom: 0.2rem;
+        }
+        
+        .way-use-item span {
+            color: #6d7178;
+            font-size: 1.3rem;
+        }
+        
+        /* Pricing Section */
+        .pricing-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 100rem;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .pricing-icon {
+            width: 6rem;
+            height: 6rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin: 0 auto 2rem;
+        }
+        
+        .pricing-card h4 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-card p {
+            font-size: 1.4rem;
+            color: #6d7178;
+            line-height: 1.6;
+        }
+        
+        /* Data Example Section */
+        .example-section {
+            background: #ffffff;
+        }
+        
+        .example-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .code-block {
+            background: #1f2123;
+            border-radius: 16px;
+            padding: 2.4rem;
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            color: #e4e5e6;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin: 0;
+        }
+        
+        .code-block .key {
+            color: #9cdcfe;
+        }
+        
+        .code-block .string {
+            color: #ce9178;
+        }
+        
+        .code-block .number {
+            color: #b5cea8;
+        }
+        
+        .fields-table {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 2.4rem;
+        }
+        
+        .fields-table h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+        
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid #e4e5e6;
+            font-size: 1.4rem;
+        }
+        
+        .field-row:last-child {
+            border-bottom: none;
+        }
+        
+        .field-name {
+            font-weight: 600;
+            color: #1f2123;
+        }
+        
+        .field-type {
+            color: #667eea;
+            font-family: monospace;
+        }
+        
+        .field-desc {
+            color: #6d7178;
+        }
+        
+        /* Features Grid Section */
+        .features-grid-section {
+            background: #f8f9fa;
+        }
+        
+        .features-grid-6 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .feature-card-icon {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.4rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-card h4 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card p {
+            font-size: 1.4rem;
+            color: #6d7178;
+            line-height: 1.6;
+        }
+        
+        /* Use Cases Section */
+        .usecases-section {
+            background: #ffffff;
+        }
+        
+        .usecases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+        
+        .usecase-card {
+            background: #f8f9fa;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .usecase-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .usecase-image {
+            height: 20rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+        }
+        
+        .usecase-content {
+            padding: 3rem;
+        }
+        
+        .usecase-content h3 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .usecase-content p {
+            font-size: 1.5rem;
+            color: #6d7178;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        
+        .usecase-content .example {
+            font-size: 1.3rem;
+            color: #667eea;
+            font-weight: 600;
+            padding-top: 1rem;
+            border-top: 1px solid #e4e5e6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 8rem 2.4rem;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta-section p {
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.6rem;
+            justify-content: center;
+        }
+        
+        .btn-outline-white {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background: #f8f9fa;
+        }
+        
+        .faq-list {
+            max-width: 90rem;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: #ffffff;
+            border-radius: 12px;
+            margin-bottom: 1.6rem;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            padding: 2rem 2.4rem;
+            font-size: 1.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+        
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+        
+        .faq-answer {
+            padding: 0 2.4rem 2rem;
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #6d7178;
+            display: none;
+        }
+        
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        
+        .faq-toggle {
+            transition: transform 0.3s;
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+        
+        /* Footer */
+        .footer {
+            background: #1f2123;
+            padding: 6rem 2.4rem 3rem;
+        }
+        
+        .footer-inner {
+            max-width: 120rem;
+            margin: 0 auto;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 3rem;
+            border-top: 1px solid #3d3f43;
+            color: #6d7178;
+            font-size: 1.4rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .custom-grid,
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .ways-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .features-grid-6 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .usecases-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3.2rem;
+            }
+            
+            .section-title {
+                font-size: 2.8rem;
+            }
+            
+            .table-header,
+            .table-row {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .custom-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid,
+            .features-grid-6 {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-cta,
+            .cta-buttons {
+                flex-direction: column;
+            }
+            
+            .trust-badges {
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">CafeScraper</a>
+            <nav class="nav">
+                <a href="#">Datasets</a>
+                <a href="#">Workers</a>
+                <a href="#">Store</a>
+                <a href="#" class="btn btn-secondary">登录</a>
+                <a href="#" class="btn btn-primary">免费试用</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-badge">数十亿条结构化数据，即买即用</div>
+            <h1>从热门网站获取<br><span>现成数据集</span></h1>
+            <p class="hero-subtitle">跳过采集开发，直接获取高质量结构化数据。无需维护脚本、无需处理反爬验证，专为业务需求定制。</p>
+            <div class="hero-cta">
+                <a href="#" class="btn btn-primary">购买数据集</a>
+                <a href="#" class="btn btn-secondary">联系销售</a>
+            </div>
+            
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <span>Trustpilot</span>
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                </div>
+                <div class="trust-badge">
+                    <span>G2</span>
+                    <span class="stars">⭐⭐⭐⭐</span>
+                </div>
+                <div class="trust-badge">
+                    <span>Capterra</span>
+                    <span class="stars">⭐⭐⭐⭐</span>
+                </div>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">现成数据集</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">50M+</div>
+                    <div class="stat-label">数据记录</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">$0.002</div>
+                    <div class="stat-label">起始价格/条</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">$250</div>
+                    <div class="stat-label">最小订单</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">JSON/CSV</div>
+                    <div class="stat-label">交付格式</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">GDPR</div>
+                    <div class="stat-label">数据合规认证</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datasets Section -->
+    <section class="section datasets-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">热门数据集展示</h2>
+                <p class="section-subtitle">现成、合规、持续更新的结构化数据集。无需处理反爬、无需维护脚本，直接下载使用。</p>
+            </div>
+            <div class="datasets-table">
+                <div class="table-header">
+                    <div>数据集</div>
+                    <div>平台</div>
+                    <div>数据量</div>
+                    <div>操作</div>
+                </div>
+                <div class="table-row">
+                    <div class="dataset-name">Amazon Best Sellers 榜单</div>
+                    <div class="dataset-platform">Amazon</div>
+                    <div class="dataset-count">500K+</div>
+                    <div><a href="#" class="btn btn-primary btn-small">查看详情</a></div>
+                </div>
+                <div class="table-row">
+                    <div class="dataset-name">TikTok 达人数据库</div>
+                    <div class="dataset-platform">TikTok</div>
+                    <div class="dataset-count">300K+</div>
+                    <div><a href="#" class="btn btn-primary btn-small">查看详情</a></div>
+                </div>
+                <div class="table-row">
+                    <div class="dataset-name">Google Maps 本地商家</div>
+                    <div class="dataset-platform">Google</div>
+                    <div class="dataset-count">2M+</div>
+                    <div><a href="#" class="btn btn-primary btn-small">查看详情</a></div>
+                </div>
+                <div class="table-row">
+                    <div class="dataset-name">Instagram 达人数据库</div>
+                    <div class="dataset-platform">Instagram</div>
+                    <div class="dataset-count">500K+</div>
+                    <div><a href="#" class="btn btn-primary btn-small">查看详情</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Custom Data Section -->
+    <section class="section custom-section">
+        <div class="section-inner">
+            <div class="custom-grid">
+                <div class="custom-content">
+                    <h3>没找到想要的数据集？</h3>
+                    <p>告诉我们需求，我们为您定制采集。</p>
+                    <div class="custom-features">
+                        <div class="custom-feature">
+                            <div class="custom-feature-icon">📅</div>
+                            <div>
+                                <h4>定时更新</h4>
+                                <p>每日/每周自动采集，持续交付</p>
+                            </div>
+                        </div>
+                        <div class="custom-feature">
+                            <div class="custom-feature-icon">📦</div>
+                            <div>
+                                <h4>批量交付</h4>
+                                <p>一次性大批量数据采集</p>
+                            </div>
+                        </div>
+                        <div class="custom-feature">
+                            <div class="custom-feature-icon">🎯</div>
+                            <div>
+                                <h4>关键业务</h4>
+                                <p>竞品监控、线索挖掘、市场分析</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-cta">
+                        <a href="#" class="btn btn-primary">申请定制数据</a>
+                        <a href="#" class="btn btn-secondary">联系专家</a>
+                    </div>
+                </div>
+                <div class="service-list">
+                    <h4>服务内容</h4>
+                    <div class="service-item">
+                        <div class="service-icon">🔍</div>
+                        <div>
+                            <strong>数据采集</strong>
+                            <span>目标网站数据提取</span>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">✨</div>
+                        <div>
+                            <strong>数据清洗</strong>
+                            <span>去重、格式化、标准化</span>
+                        </div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-icon">📤</div>
+                        <div>
+                            <strong>数据交付</strong>
+                            <span>API/文件/数据库对接</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Two Ways Section -->
+    <section class="section ways-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">两种数据获取方式</h2>
+            </div>
+            <div class="ways-grid">
+                <div class="way-card">
+                    <h3>预置数据集</h3>
+                    <div class="subtitle">现成可用，无需等待</div>
+                    <div class="way-features">
+                        <div class="way-feature">覆盖50+主流平台：Amazon, TikTok, Google Maps等</div>
+                        <div class="way-feature">数据已清洗结构化：JSON/CSV格式，开箱即用</div>
+                        <div class="way-feature">定期自动更新：每日/每周刷新，保持新鲜</div>
+                    </div>
+                    <div class="way-uses">
+                        <h4>最佳用途：</h4>
+                        <div class="way-use-item">
+                            <span class="icon">📊</span>
+                            <div>
+                                <strong>电商选品</strong>
+                                <span>Amazon Best Sellers、价格趋势</span>
+                            </div>
+                        </div>
+                        <div class="way-use-item">
+                            <span class="icon">👤</span>
+                            <div>
+                                <strong>达人营销</strong>
+                                <span>TikTok/Instagram达人数据库</span>
+                            </div>
+                        </div>
+                        <div class="way-use-item">
+                            <span class="icon">📍</span>
+                            <div>
+                                <strong>B2B获客</strong>
+                                <span>Google Maps商家联系方式</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary" style="width: 100%;">浏览数据集</a>
+                </div>
+                <div class="way-card">
+                    <h3>定制数据集</h3>
+                    <div class="subtitle">按需采集，精准匹配</div>
+                    <div class="way-features">
+                        <div class="way-feature">自定义采集目标：网站、字段、过滤条件</div>
+                        <div class="way-feature">灵活交付方式：一次性/定期更新</div>
+                        <div class="way-feature">样本预览确认：订阅前可预览数据样例</div>
+                    </div>
+                    <div class="way-uses">
+                        <h4>最佳用途：</h4>
+                        <div class="way-use-item">
+                            <span class="icon">🤖</span>
+                            <div>
+                                <strong>AI训练数据</strong>
+                                <span>多模态数据集构建</span>
+                            </div>
+                        </div>
+                        <div class="way-use-item">
+                            <span class="icon">📈</span>
+                            <div>
+                                <strong>行业分析</strong>
+                                <span>垂直领域深度数据</span>
+                            </div>
+                        </div>
+                        <div class="way-use-item">
+                            <span class="icon">🔍</span>
+                            <div>
+                                <strong>竞品研究</strong>
+                                <span>定制化监控指标</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-secondary" style="width: 100%;">咨询专家</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section pricing-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">按需付费，数据成本可控</h2>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-icon">💰</div>
+                    <h4>竞争力定价</h4>
+                    <p>比自建采集节省70%成本，比竞品低12-30%</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-icon">📦</div>
+                    <h4>数据集打包优惠</h4>
+                    <p>同时购买2个及以上数据集，享受组合折扣</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-icon">📊</div>
+                    <h4>大批量折扣</h4>
+                    <p>长期订阅或大批量采购，额外享20-40%折扣</p>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-icon">✅</div>
+                    <h4>成功才计费</h4>
+                    <p>数据到位才收费，无效结果全额免单</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Example Section -->
+    <section class="section example-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">数据输出示例</h2>
+                <p class="section-subtitle">订阅前预览数据格式和字段，确保符合项目需求。</p>
+            </div>
+            <div class="example-grid">
+                <div class="code-block">
+                    <pre>{
+  <span class="key">"asin"</span>: <span class="string">"B09V3KXJPB"</span>,
+  <span class="key">"title"</span>: <span class="string">"Apple iPhone 14 Pro Max 256GB"</span>,
+  <span class="key">"price"</span>: <span class="number">1199</span>,
+  <span class="key">"rating"</span>: <span class="number">4.7</span>,
+  <span class="key">"review_count"</span>: <span class="number">12568</span>,
+  <span class="key">"seller"</span>: <span class="string">"Amazon.com"</span>,
+  <span class="key">"category"</span>: <span class="string">"Electronics > Cell Phones"</span>,
+  <span class="key">"rank"</span>: {
+    <span class="key">"best_sellers"</span>: <span class="number">15</span>,
+    <span class="key">"category"</span>: <span class="number">3</span>
+  },
+  <span class="key">"availability"</span>: <span class="string">"In Stock"</span>,
+  <span class="key">"images"</span>: [<span class="string">"https://..."</span>],
+  <span class="key">"timestamp"</span>: <span class="string">"2024-01-15T10:30:00Z"</span>
+}</pre>
+                </div>
+                <div class="fields-table">
+                    <h4>字段说明</h4>
+                    <div class="field-row">
+                        <div class="field-name">asin</div>
+                        <div class="field-type">string</div>
+                        <div class="field-desc">Amazon 商品 ID</div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-name">title</div>
+                        <div class="field-type">string</div>
+                        <div class="field-desc">商品标题</div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-name">price</div>
+                        <div class="field-type">number</div>
+                        <div class="field-desc">当前价格</div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-name">rating</div>
+                        <div class="field-type">number</div>
+                        <div class="field-desc">评分（1-5）</div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-name">review_count</div>
+                        <div class="field-type">number</div>
+                        <div class="field-desc">评论数</div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-name">seller</div>
+                        <div class="field-type">string</div>
+                        <div class="field-desc">卖家名称</div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-name">category</div>
+                        <div class="field-type">string</div>
+                        <div class="field-desc">商品类目</div>
+                    </div>
+                    <div class="field-row">
+                        <div class="field-name">rank</div>
+                        <div class="field-type">object</div>
+                        <div class="field-desc">排名信息</div>
+                    </div>
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <a href="#" class="btn btn-secondary">下载完整样例</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid Section -->
+    <section class="section features-grid-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">采集、清洗、交付，一站式搞定</h2>
+                <p class="section-subtitle">无需维护脚本、无需处理反爬，直接获取干净数据。</p>
+            </div>
+            <div class="features-grid-6">
+                <div class="feature-card">
+                    <div class="feature-card-icon">🌐</div>
+                    <h4>智能数据采集</h4>
+                    <p>内置 190+ 国家住宅代理，自动绕过反爬验证，无需编码</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">🔄</div>
+                    <h4>自动数据更新</h4>
+                    <p>数据自动保持最新，新增/变更记录实时交付</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">🔌</div>
+                    <h4>开发者 API</h4>
+                    <p>RESTful API 查询和过滤数据，无缝集成到现有工作流</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">✨</div>
+                    <h4>数据质量保障</h4>
+                    <p>交付前清洗、去重、标准化，格式统一，直接可用</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">📊</div>
+                    <h4>数据健康监控</h4>
+                    <p>实时查看填充率，确保数据符合业务需求</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-card-icon">📁</div>
+                    <h4>多格式输出</h4>
+                    <p>JSON结构化数据适合API对接，CSV表格格式适合Excel分析</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section class="section usecases-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">数据驱动业务增长</h2>
+            </div>
+            <div class="usecases-grid">
+                <div class="usecase-card">
+                    <div class="usecase-image">🤖</div>
+                    <div class="usecase-content">
+                        <h3>AI 训练数据</h3>
+                        <p>为 LLM 和机器学习提供高质量数据集</p>
+                        <p>• 模型训练：文本、图片、视频数据<br>• 微调优化：领域特定数据集<br>• RAG增强：结构化知识库</p>
+                        <div class="example">数据集示例：Amazon评论、社交媒体帖子、商品描述</div>
+                    </div>
+                </div>
+                <div class="usecase-card">
+                    <div class="usecase-image">🛒</div>
+                    <div class="usecase-content">
+                        <h3>电商情报</h3>
+                        <p>实时追踪市场趋势和竞品动态</p>
+                        <p>• 选品研究：价格、销量、评分<br>• 竞品监控：排名变化、新品上架<br>• 评论分析：用户反馈、痛点挖掘</p>
+                        <div class="example">数据集示例：Amazon Best Sellers、TikTok Shop 热销商品</div>
+                    </div>
+                </div>
+                <div class="usecase-card">
+                    <div class="usecase-image">🏢</div>
+                    <div class="usecase-content">
+                        <h3>B2B获客</h3>
+                        <p>快速获取潜在客户和销售线索</p>
+                        <p>• 线索挖掘：公司信息、联系方式<br>• 客户画像：行业、规模、决策人<br>• 市场拓展：目标客户列表</p>
+                        <div class="example">数据集示例：Google Maps 商家、LinkedIn公司数据</div>
+                    </div>
+                </div>
+                <div class="usecase-card">
+                    <div class="usecase-image">📱</div>
+                    <div class="usecase-content">
+                        <h3>社媒营销</h3>
+                        <p>达人发现与内容趋势分析</p>
+                        <p>• 达人筛选：粉丝数、互动率、带货记录<br>• 内容分析：热门话题、传播路径<br>• 竞品追踪：品牌声量、投放数据</p>
+                        <div class="example">数据集示例：TikTok达人、Instagram达人数据库</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="section-inner">
+            <h2>准备好获取现成数据了吗？</h2>
+            <p>现成数据集 · 每日更新 · 开箱即用</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-white">浏览全部数据集</a>
+                <a href="#" class="btn btn-outline-white">申请定制数据</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2 class="section-title">常见问题</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>什么是 CafeScraper 数据集？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">CafeScraper 数据集是经过采集、清洗、结构化处理的高质量数据集合，覆盖电商、社媒、本地商家等领域。用户可直接下载使用，无需自行开发采集脚本。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>提供哪些类型的数据集？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">覆盖电商（Amazon、TikTok Shop）、社媒（TikTok、Instagram、YouTube）、本地商家（Google Maps）、B2B（LinkedIn）等领域，共 50+ 现成数据集。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>数据集可以定制吗？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">可以。支持自定义采集目标、字段、过滤条件，提供一次性采集或定期更新服务。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>支持哪些数据格式？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">支持 JSON、CSV 格式，可通过 API、文件下载或数据库对接交付。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>数据来源是否合规？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">CafeScraper 遵守 GDPR、CCPA 等数据保护法规，所有数据来源于公开信息。</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>数据集有哪些常见用途？</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">AI 训练数据、电商选品、竞品监控、B2B 获客、达人营销、市场分析等。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-bottom">
+                <p>&copy; 2024 CafeScraper. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
