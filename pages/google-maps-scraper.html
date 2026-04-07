@@ -44,8 +44,142 @@
             font-weight: 400;
             font-family: 'Inter', sans-serif;
             margin: 0;
-            background: var(--color-neutral-background);
+            background: linear-gradient(135deg, #a8b5e0 0%, #b8a8d8 100%);
             color: var(--color-neutral-text);
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 28rem;
+            background: rgba(255, 255, 255, 0.95);
+            border-right: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2.4rem;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Sidebar trigger area */
+        .sidebar-trigger {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 100vh;
+            z-index: 999;
+        }
+
+        .sidebar-trigger:hover + .sidebar,
+        .sidebar:hover {
+            transform: translateX(0);
+        }
+
+        .sidebar-trigger:hover ~ .main,
+        .sidebar:hover ~ .main {
+            margin-left: 28rem;
+        }
+
+        .sidebar-header {
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 3.6rem;
+            height: 3.6rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .nav-section {
+            margin-bottom: 2.4rem;
+        }
+
+        .nav-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 1.2rem;
+            padding-left: 1rem;
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.4rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            padding: 1rem 1.2rem;
+            border-radius: 8px;
+            color: #555;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        .nav-link.active {
+            background: #f0f0f0;
+            color: #1a1a1a;
+        }
+
+        .nav-icon {
+            width: 2.4rem;
+            height: 2.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+        }
+
+        /* Main Content */
+        .main {
+            flex: 1;
+            margin-left: 0;
+            min-height: 100vh;
+            transition: margin-left 0.3s ease;
         }
 
         /* Header */
@@ -68,7 +202,7 @@
             justify-content: space-between;
         }
 
-        .logo {
+        .logo-header {
             font-size: 2.4rem;
             font-weight: 700;
             color: var(--color-neutral-text);
@@ -1090,6 +1224,14 @@
             .pricing-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .sidebar {
+                width: 26rem;
+            }
+
+            .sidebar:hover ~ .main {
+                margin-left: 26rem;
+            }
         }
 
         @media (max-width: 768px) {
@@ -1129,798 +1271,890 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-inner">
-            <a href="#" class="logo">CafeScraper</a>
-            <nav class="nav">
-                <a href="#">Store</a>
-                <a href="#">Workers</a>
-                <a href="#" class="btn btn-secondary">Login</a>
-                <a href="#" class="btn btn-primary">Sign Up</a>
+    <div class="layout">
+        <!-- Sidebar trigger area -->
+        <div class="sidebar-trigger"></div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="logo">
+                    <div class="logo-icon">C</div>
+                    CoreClaw
+                </a>
+            </div>
+
+            <nav>
+                <div class="nav-section">
+                    <div class="nav-title">导航</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <span class="nav-icon">🏠</span>
+                                首页
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">
+                                <span class="nav-icon">📄</span>
+                                所有页面
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">数据抓取</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/pages/google-maps-scraper.html" class="nav-link active">
+                                <span class="nav-icon">🗺️</span>
+                                Google Maps
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/amazon-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">🛒</span>
+                                Amazon
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/tiktok-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">📱</span>
+                                TikTok
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/instagram-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">📷</span>
+                                Instagram
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/youtube-data-scraping-solutions.html" class="nav-link">
+                                <span class="nav-icon">🎬</span>
+                                YouTube
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-section">
+                    <div class="nav-title">云端服务</div>
+                    <ul class="nav-list">
+                        <li class="nav-item">
+                            <a href="/pages/workers.html" class="nav-link">
+                                <span class="nav-icon">⚡</span>
+                                Workers
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/pages/dataset.html" class="nav-link">
+                                <span class="nav-icon">📊</span>
+                                数据集
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </nav>
-        </div>
-    </header>
+        </aside>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-inner">
-            <h1>Extract Verified Business Leads from Google Maps in Minutes</h1>
-            <p class="hero-subtitle">CafeScraper helps B2B sales and marketing teams extract, validate, and enrich business data from Google Maps—no coding, no Google API key required.</p>
-            <div class="hero-cta">
-                <a href="#" class="btn btn-white">Start Free Trial</a>
-                <a href="#" class="btn btn-outline-white">See How It Works</a>
-            </div>
-            <div class="trust-badge">Trusted by 1,000+ B2B teams worldwide</div>
-        </div>
-    </section>
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-inner">
+                    <a href="/" class="logo-header">CafeScraper</a>
+                    <nav class="nav">
+                        <a href="/">Store</a>
+                        <a href="/pages/workers.html">Workers</a>
+                        <a href="#" class="btn btn-secondary">Login</a>
+                        <a href="#" class="btn btn-primary">Sign Up</a>
+                    </nav>
+                </div>
+            </header>
 
-    <!-- Data Fields Section -->
-    <section class="section data-fields-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">What You Get with CafeScraper</h2>
-            </div>
-            <p class="data-intro">CafeScraper extracts comprehensive business data from Google Maps with validation and enrichment built-in. Unlike basic scrapers that give you raw data, we deliver clean, verified, actionable information.</p>
-            <div class="data-categories">
-                <div class="data-category">
-                    <h3><span class="icon">🏢</span>Basic Business Information</h3>
-                    <ul>
-                        <li>Business name</li>
-                        <li>Address (street, city, state, country, postal code)</li>
-                        <li>GPS coordinates (latitude, longitude)</li>
-                        <li>Google Place ID</li>
-                        <li>Business categories and tags</li>
-                        <li>Price range</li>
-                    </ul>
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="hero-inner">
+                    <h1>Extract Verified Business Leads from Google Maps in Minutes</h1>
+                    <p class="hero-subtitle">CafeScraper helps B2B sales and marketing teams extract, validate, and enrich business data from Google Maps—no coding, no Google API key required.</p>
+                    <div class="hero-cta">
+                        <a href="#" class="btn btn-white">Start Free Trial</a>
+                        <a href="#" class="btn btn-outline-white">See How It Works</a>
+                    </div>
+                    <div class="trust-badge">Trusted by 1,000+ B2B teams worldwide</div>
                 </div>
-                <div class="data-category">
-                    <h3><span class="icon">📞</span>Contact Information</h3>
-                    <ul>
-                        <li>Phone numbers (validated and formatted)</li>
-                        <li>Website URL</li>
-                        <li>Email addresses (verified for deliverability)</li>
-                        <li>Social media profiles (LinkedIn, Facebook, Instagram, Twitter)</li>
-                    </ul>
-                </div>
-                <div class="data-category">
-                    <h3><span class="icon">⭐</span>Ratings & Reviews</h3>
-                    <ul>
-                        <li>Overall rating (1-5 stars)</li>
-                        <li>Total review count</li>
-                        <li>Review distribution (1-5 star breakdown)</li>
-                        <li>Recent review snippets</li>
-                    </ul>
-                </div>
-                <div class="data-category">
-                    <h3><span class="icon">🕐</span>Operational Details</h3>
-                    <ul>
-                        <li>Opening hours (per day)</li>
-                        <li>Permanent closed status</li>
-                        <li>Temporarily closed status</li>
-                        <li>Service types (delivery, takeout, dine-in)</li>
-                        <li>Payment methods accepted</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="value-prop-box">
-                🎯 All data is validated and enriched, not just scraped.
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Personas Section -->
-    <section class="section personas-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Built for B2B Sales, Marketing, and Growth Teams</h2>
-            </div>
-            <div class="personas-grid">
-                <div class="persona-card">
-                    <h3>B2B Sales Teams</h3>
-                    <div class="challenge">
-                        <div class="label">Challenge</div>
-                        <p>Building targeted prospect lists manually takes hours and leads to low contact rates.</p>
+            <!-- Data Fields Section -->
+            <section class="section data-fields-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">What You Get with CafeScraper</h2>
                     </div>
-                    <div class="solution">
-                        <div class="label">Solution</div>
-                        <p>Extract thousands of businesses in your target market with verified emails and phones in minutes.</p>
+                    <p class="data-intro">CafeScraper extracts comprehensive business data from Google Maps with validation and enrichment built-in. Unlike basic scrapers that give you raw data, we deliver clean, verified, actionable information.</p>
+                    <div class="data-categories">
+                        <div class="data-category">
+                            <h3><span class="icon">🏢</span>Basic Business Information</h3>
+                            <ul>
+                                <li>Business name</li>
+                                <li>Address (street, city, state, country, postal code)</li>
+                                <li>GPS coordinates (latitude, longitude)</li>
+                                <li>Google Place ID</li>
+                                <li>Business categories and tags</li>
+                                <li>Price range</li>
+                            </ul>
+                        </div>
+                        <div class="data-category">
+                            <h3><span class="icon">📞</span>Contact Information</h3>
+                            <ul>
+                                <li>Phone numbers (validated and formatted)</li>
+                                <li>Website URL</li>
+                                <li>Email addresses (verified for deliverability)</li>
+                                <li>Social media profiles (LinkedIn, Facebook, Instagram, Twitter)</li>
+                            </ul>
+                        </div>
+                        <div class="data-category">
+                            <h3><span class="icon">⭐</span>Ratings & Reviews</h3>
+                            <ul>
+                                <li>Overall rating (1-5 stars)</li>
+                                <li>Total review count</li>
+                                <li>Review distribution (1-5 star breakdown)</li>
+                                <li>Recent review snippets</li>
+                            </ul>
+                        </div>
+                        <div class="data-category">
+                            <h3><span class="icon">🕐</span>Operational Details</h3>
+                            <ul>
+                                <li>Opening hours (per day)</li>
+                                <li>Permanent closed status</li>
+                                <li>Temporarily closed status</li>
+                                <li>Service types (delivery, takeout, dine-in)</li>
+                                <li>Payment methods accepted</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="outcome">
-                        <div class="label">Outcome</div>
-                        <p>Build prospect lists with 3x higher contact rates and spend more time selling, less time researching.</p>
-                    </div>
-                </div>
-                <div class="persona-card">
-                    <h3>Marketing Teams</h3>
-                    <div class="challenge">
-                        <div class="label">Challenge</div>
-                        <p>CRM data is incomplete, and creating lookalike audiences requires clean data.</p>
-                    </div>
-                    <div class="solution">
-                        <div class="label">Solution</div>
-                        <p>Enrich existing customer records with missing contact info and create detailed business profiles for targeting.</p>
-                    </div>
-                    <div class="outcome">
-                        <div class="label">Outcome</div>
-                        <p>Improve email deliverability, reduce bounce rates, and create more effective lookalike audiences.</p>
-                    </div>
-                </div>
-                <div class="persona-card">
-                    <h3>Market Researchers</h3>
-                    <div class="challenge">
-                        <div class="label">Challenge</div>
-                        <p>Analyzing local business landscapes requires accurate, up-to-date data.</p>
-                    </div>
-                    <div class="solution">
-                        <div class="label">Solution</div>
-                        <p>Extract comprehensive business data across regions, categories, and time periods.</p>
-                    </div>
-                    <div class="outcome">
-                        <div class="label">Outcome</div>
-                        <p>Make data-driven decisions about market expansion, competitive positioning, and opportunity identification.</p>
-                    </div>
-                </div>
-                <div class="persona-card">
-                    <h3>Real Estate Professionals</h3>
-                    <div class="challenge">
-                        <div class="label">Challenge</div>
-                        <p>Identifying business opportunities in specific areas is time-consuming.</p>
-                    </div>
-                    <div class="solution">
-                        <div class="label">Solution</div>
-                        <p>Analyze business density, types, and growth patterns in target locations.</p>
-                    </div>
-                    <div class="outcome">
-                        <div class="label">Outcome</div>
-                        <p>Identify high-potential locations for development, leasing, or investment.</p>
+                    <div class="value-prop-box">
+                        🎯 All data is validated and enriched, not just scraped.
                     </div>
                 </div>
-                <div class="persona-card">
-                    <h3>Data Scientists</h3>
-                    <div class="challenge">
-                        <div class="label">Challenge</div>
-                        <p>Accessing clean, structured data for analysis and modeling.</p>
-                    </div>
-                    <div class="solution">
-                        <div class="label">Solution</div>
-                        <p>Export data in JSON, CSV, or Excel format with consistent structure and validation.</p>
-                    </div>
-                    <div class="outcome">
-                        <div class="label">Outcome</div>
-                        <p>Accelerate data pipelines and improve model accuracy with clean, reliable data.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Benefits Section -->
-    <section class="section benefits-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Why Choose CafeScraper for Google Maps Data?</h2>
-            </div>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">⏱️</div>
-                    <h3>Save 10+ Hours per Week</h3>
-                    <p>Automate manual data collection and focus on selling. What takes hours manually takes minutes with CafeScraper.</p>
+            <!-- Personas Section -->
+            <section class="section personas-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Built for B2B Sales, Marketing, and Growth Teams</h2>
+                    </div>
+                    <div class="personas-grid">
+                        <div class="persona-card">
+                            <h3>B2B Sales Teams</h3>
+                            <div class="challenge">
+                                <div class="label">Challenge</div>
+                                <p>Building targeted prospect lists manually takes hours and leads to low contact rates.</p>
+                            </div>
+                            <div class="solution">
+                                <div class="label">Solution</div>
+                                <p>Extract thousands of businesses in your target market with verified emails and phones in minutes.</p>
+                            </div>
+                            <div class="outcome">
+                                <div class="label">Outcome</div>
+                                <p>Build prospect lists with 3x higher contact rates and spend more time selling, less time researching.</p>
+                            </div>
+                        </div>
+                        <div class="persona-card">
+                            <h3>Marketing Teams</h3>
+                            <div class="challenge">
+                                <div class="label">Challenge</div>
+                                <p>CRM data is incomplete, and creating lookalike audiences requires clean data.</p>
+                            </div>
+                            <div class="solution">
+                                <div class="label">Solution</div>
+                                <p>Enrich existing customer records with missing contact info and create detailed business profiles for targeting.</p>
+                            </div>
+                            <div class="outcome">
+                                <div class="label">Outcome</div>
+                                <p>Improve email deliverability, reduce bounce rates, and create more effective lookalike audiences.</p>
+                            </div>
+                        </div>
+                        <div class="persona-card">
+                            <h3>Market Researchers</h3>
+                            <div class="challenge">
+                                <div class="label">Challenge</div>
+                                <p>Analyzing local business landscapes requires accurate, up-to-date data.</p>
+                            </div>
+                            <div class="solution">
+                                <div class="label">Solution</div>
+                                <p>Extract comprehensive business data across regions, categories, and time periods.</p>
+                            </div>
+                            <div class="outcome">
+                                <div class="label">Outcome</div>
+                                <p>Make data-driven decisions about market expansion, competitive positioning, and opportunity identification.</p>
+                            </div>
+                        </div>
+                        <div class="persona-card">
+                            <h3>Real Estate Professionals</h3>
+                            <div class="challenge">
+                                <div class="label">Challenge</div>
+                                <p>Identifying business opportunities in specific areas is time-consuming.</p>
+                            </div>
+                            <div class="solution">
+                                <div class="label">Solution</div>
+                                <p>Analyze business density, types, and growth patterns in target locations.</p>
+                            </div>
+                            <div class="outcome">
+                                <div class="label">Outcome</div>
+                                <p>Identify high-potential locations for development, leasing, or investment.</p>
+                            </div>
+                        </div>
+                        <div class="persona-card">
+                            <h3>Data Scientists</h3>
+                            <div class="challenge">
+                                <div class="label">Challenge</div>
+                                <p>Accessing clean, structured data for analysis and modeling.</p>
+                            </div>
+                            <div class="solution">
+                                <div class="label">Solution</div>
+                                <p>Export data in JSON, CSV, or Excel format with consistent structure and validation.</p>
+                            </div>
+                            <div class="outcome">
+                                <div class="label">Outcome</div>
+                                <p>Accelerate data pipelines and improve model accuracy with clean, reliable data.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📞</div>
-                    <h3>3x Higher Contact Rates</h3>
-                    <p>Verified emails and validated phone numbers mean more connections and fewer bounced messages.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🚀</div>
-                    <h3>No Technical Skills Required</h3>
-                    <p>Point-and-click interface with no coding needed. If you can use Google Maps, you can use CafeScraper.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📊</div>
-                    <h3>Scale Without Limits</h3>
-                    <p>Extract thousands of records in minutes, not days. No artificial limits or throttling.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🛡️</div>
-                    <h3>GDPR & CCPA Compliant</h3>
-                    <p>Built-in data governance tools help you stay compliant with data protection regulations.</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">⚡</div>
-                    <h3>Enterprise-Grade Reliability</h3>
-                    <p>99.9% uptime with automatic retries, error handling, and real-time progress tracking.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Use Cases Section -->
-    <section class="section usecases-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">How Teams Use CafeScraper</h2>
-            </div>
-            <div class="usecase-card">
-                <h3>Lead Generation for B2B Sales</h3>
-                <p class="scenario">Extract all restaurants, dentists, gyms, lawyers, or any business type in your target cities to build prospect lists.</p>
-                <div class="how-it-works">
-                    <h4>How It Works</h4>
-                    <ol>
-                        <li><strong>Search:</strong> Enter "dentists in Chicago" or "restaurants in Brooklyn"</li>
-                        <li><strong>Filter:</strong> Narrow by rating, review count, or business status</li>
-                        <li><strong>Extract:</strong> Get 50+ data fields per business</li>
-                        <li><strong>Validate:</strong> CafeScraper verifies emails and phones</li>
-                        <li><strong>Export:</strong> Download clean CSV or Excel file</li>
-                    </ol>
+            <!-- Benefits Section -->
+            <section class="section benefits-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Why Choose CafeScraper for Google Maps Data?</h2>
+                    </div>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">⏱️</div>
+                            <h3>Save 10+ Hours per Week</h3>
+                            <p>Automate manual data collection and focus on selling. What takes hours manually takes minutes with CafeScraper.</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📞</div>
+                            <h3>3x Higher Contact Rates</h3>
+                            <p>Verified emails and validated phone numbers mean more connections and fewer bounced messages.</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🚀</div>
+                            <h3>No Technical Skills Required</h3>
+                            <p>Point-and-click interface with no coding needed. If you can use Google Maps, you can use CafeScraper.</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">📊</div>
+                            <h3>Scale Without Limits</h3>
+                            <p>Extract thousands of records in minutes, not days. No artificial limits or throttling.</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">🛡️</div>
+                            <h3>GDPR & CCPA Compliant</h3>
+                            <p>Built-in data governance tools help you stay compliant with data protection regulations.</p>
+                        </div>
+                        <div class="benefit-card">
+                            <div class="benefit-icon">⚡</div>
+                            <h3>Enterprise-Grade Reliability</h3>
+                            <p>99.9% uptime with automatic retries, error handling, and real-time progress tracking.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="outcome">
-                    <h4>Outcome</h4>
-                    <p>Build prospect lists with verified contact information in minutes instead of days. Sales teams report 3x higher contact rates and 50% faster pipeline building.</p>
-                </div>
-            </div>
-            <div class="usecase-card">
-                <h3>Competitor Analysis</h3>
-                <p class="scenario">Monitor new business openings, closures, and review trends in your industry to stay ahead of competitors.</p>
-                <div class="how-it-works">
-                    <h4>How It Works</h4>
-                    <ol>
-                        <li><strong>Extract:</strong> Pull all businesses in your category and location</li>
-                        <li><strong>Track:</strong> Monitor changes in ratings, reviews, and status over time</li>
-                        <li><strong>Analyze:</strong> Identify top performers and emerging competitors</li>
-                        <li><strong>Act:</strong> Adjust your strategy based on competitive insights</li>
-                    </ol>
-                </div>
-                <div class="outcome">
-                    <h4>Outcome</h4>
-                    <p>Stay ahead of market trends, identify gaps in the market, and respond to competitive threats before they impact your business.</p>
-                </div>
-            </div>
-            <div class="usecase-card">
-                <h3>Market Research</h3>
-                <p class="scenario">Analyze business density, distribution, and characteristics across regions to identify expansion opportunities.</p>
-                <div class="how-it-works">
-                    <h4>How It Works</h4>
-                    <ol>
-                        <li><strong>Extract:</strong> Pull business data across multiple regions or cities</li>
-                        <li><strong>Compare:</strong> Analyze density, types, ratings, and growth patterns</li>
-                        <li><strong>Visualize:</strong> Map business distribution and identify hotspots</li>
-                        <li><strong>Decide:</strong> Make data-driven location decisions</li>
-                    </ol>
-                </div>
-                <div class="outcome">
-                    <h4>Outcome</h4>
-                    <p>Make informed decisions about market expansion, franchise locations, or service coverage based on real data, not guesswork.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Steps Section -->
-    <section class="section steps-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Extract Google Maps Data in 3 Simple Steps</h2>
-            </div>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
-                    <h3>Search</h3>
-                    <p>Enter your business category or keyword and location</p>
-                    <ul>
-                        <li>Type your query (e.g., "restaurants," "dentists")</li>
-                        <li>Add location (city, state, or radius)</li>
-                        <li>Filter by rating, review count, or status</li>
-                    </ul>
+            <!-- Use Cases Section -->
+            <section class="section usecases-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">How Teams Use CafeScraper</h2>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>Lead Generation for B2B Sales</h3>
+                        <p class="scenario">Extract all restaurants, dentists, gyms, lawyers, or any business type in your target cities to build prospect lists.</p>
+                        <div class="how-it-works">
+                            <h4>How It Works</h4>
+                            <ol>
+                                <li><strong>Search:</strong> Enter "dentists in Chicago" or "restaurants in Brooklyn"</li>
+                                <li><strong>Filter:</strong> Narrow by rating, review count, or business status</li>
+                                <li><strong>Extract:</strong> Get 50+ data fields per business</li>
+                                <li><strong>Validate:</strong> CafeScraper verifies emails and phones</li>
+                                <li><strong>Export:</strong> Download clean CSV or Excel file</li>
+                            </ol>
+                        </div>
+                        <div class="outcome">
+                            <h4>Outcome</h4>
+                            <p>Build prospect lists with verified contact information in minutes instead of days. Sales teams report 3x higher contact rates and 50% faster pipeline building.</p>
+                        </div>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>Competitor Analysis</h3>
+                        <p class="scenario">Monitor new business openings, closures, and review trends in your industry to stay ahead of competitors.</p>
+                        <div class="how-it-works">
+                            <h4>How It Works</h4>
+                            <ol>
+                                <li><strong>Extract:</strong> Pull all businesses in your category and location</li>
+                                <li><strong>Track:</strong> Monitor changes in ratings, reviews, and status over time</li>
+                                <li><strong>Analyze:</strong> Identify top performers and emerging competitors</li>
+                                <li><strong>Act:</strong> Adjust your strategy based on competitive insights</li>
+                            </ol>
+                        </div>
+                        <div class="outcome">
+                            <h4>Outcome</h4>
+                            <p>Stay ahead of market trends, identify gaps in the market, and respond to competitive threats before they impact your business.</p>
+                        </div>
+                    </div>
+                    <div class="usecase-card">
+                        <h3>Market Research</h3>
+                        <p class="scenario">Analyze business density, distribution, and characteristics across regions to identify expansion opportunities.</p>
+                        <div class="how-it-works">
+                            <h4>How It Works</h4>
+                            <ol>
+                                <li><strong>Extract:</strong> Pull business data across multiple regions or cities</li>
+                                <li><strong>Compare:</strong> Analyze density, types, ratings, and growth patterns</li>
+                                <li><strong>Visualize:</strong> Map business distribution and identify hotspots</li>
+                                <li><strong>Decide:</strong> Make data-driven location decisions</li>
+                            </ol>
+                        </div>
+                        <div class="outcome">
+                            <h4>Outcome</h4>
+                            <p>Make informed decisions about market expansion, franchise locations, or service coverage based on real data, not guesswork.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <div class="step-number">2</div>
-                    <h3>Extract</h3>
-                    <p>Let CafeScraper do the work</p>
-                    <ul>
-                        <li>Extract all matching businesses</li>
-                        <li>50+ data fields per result</li>
-                        <li>Automatic email and phone validation</li>
-                        <li>Real-time progress tracking</li>
-                    </ul>
-                </div>
-                <div class="step-card">
-                    <div class="step-number">3</div>
-                    <h3>Export</h3>
-                    <p>Download your data in any format</p>
-                    <ul>
-                        <li>Export to CSV, Excel, or JSON</li>
-                        <li>One-click download</li>
-                        <li>Clean, structured data ready to use</li>
-                        <li>Import directly into your CRM</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Comparison Section -->
-    <section class="section comparison-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Why CafeScraper Beats Other Google Maps Scrapers</h2>
-            </div>
-            <div class="comparison-table-wrapper">
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>CafeScraper</th>
-                            <th>G Maps Extractor</th>
-                            <th>Apify</th>
-                            <th>Outscraper</th>
-                            <th>ScraperCity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="highlight">
-                            <td class="feature-name">Email Verification</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td class="feature-name">Phone Validation</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td class="feature-name">Data Enrichment</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                            <td class="cross">❌ No</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-name">Cloud + Extension</td>
-                            <td class="check">✅ Both</td>
-                            <td class="cross">❌ Extension only</td>
-                            <td class="check">✅ Cloud</td>
-                            <td class="check">✅ Cloud</td>
-                            <td class="check">✅ Cloud</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-name">No Google API Key</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="check">✅ Yes</td>
-                        </tr>
-                        <tr>
-                            <td class="feature-name">Free Trial</td>
-                            <td class="check">✅ 500 records</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="check">✅ 500 records</td>
-                            <td class="check">✅ 500 records</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td class="feature-name">GDPR Compliant</td>
-                            <td class="check">✅ Yes</td>
-                            <td class="cross">❌ No mention</td>
-                            <td class="cross">❌ No mention</td>
-                            <td class="cross">❌ No mention</td>
-                            <td class="cross">❌ No mention</td>
-                        </tr>
-                        <tr class="highlight">
-                            <td class="feature-name">Technical Support</td>
-                            <td class="check">✅ Dedicated</td>
-                            <td class="cross">❌ Limited</td>
-                            <td class="check">✅ Community</td>
-                            <td class="check">✅ Email</td>
-                            <td class="check">✅ Email</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+            <!-- Steps Section -->
+            <section class="section steps-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Extract Google Maps Data in 3 Simple Steps</h2>
+                    </div>
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <h3>Search</h3>
+                            <p>Enter your business category or keyword and location</p>
+                            <ul>
+                                <li>Type your query (e.g., "restaurants," "dentists")</li>
+                                <li>Add location (city, state, or radius)</li>
+                                <li>Filter by rating, review count, or status</li>
+                            </ul>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <h3>Extract</h3>
+                            <p>Let CafeScraper do the work</p>
+                            <ul>
+                                <li>Extract all matching businesses</li>
+                                <li>50+ data fields per result</li>
+                                <li>Automatic email and phone validation</li>
+                                <li>Real-time progress tracking</li>
+                            </ul>
+                        </div>
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <h3>Export</h3>
+                            <p>Download your data in any format</p>
+                            <ul>
+                                <li>Export to CSV, Excel, or JSON</li>
+                                <li>One-click download</li>
+                                <li>Clean, structured data ready to use</li>
+                                <li>Import directly into your CRM</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Differentiators Section -->
-    <section class="section differentiators-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Key Differentiators</h2>
-            </div>
-            <div class="differentiators-grid">
-                <div class="differentiator-card">
-                    <h3>1. We Don't Just Scrape—We Validate</h3>
-                    <p>While other scrapers give you raw data, CafeScraper verifies every email and phone number. This means:</p>
-                    <ul>
-                        <li>Higher email deliverability rates</li>
-                        <li>Fewer bounced calls</li>
-                        <li>More successful connections</li>
-                    </ul>
+            <!-- Comparison Section -->
+            <section class="section comparison-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Why CafeScraper Beats Other Google Maps Scrapers</h2>
+                    </div>
+                    <div class="comparison-table-wrapper">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Feature</th>
+                                    <th>CafeScraper</th>
+                                    <th>G Maps Extractor</th>
+                                    <th>Apify</th>
+                                    <th>Outscraper</th>
+                                    <th>ScraperCity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="highlight">
+                                    <td class="feature-name">Email Verification</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="feature-name">Phone Validation</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="feature-name">Data Enrichment</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                    <td class="cross">❌ No</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-name">Cloud + Extension</td>
+                                    <td class="check">✅ Both</td>
+                                    <td class="cross">❌ Extension only</td>
+                                    <td class="check">✅ Cloud</td>
+                                    <td class="check">✅ Cloud</td>
+                                    <td class="check">✅ Cloud</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-name">No Google API Key</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="check">✅ Yes</td>
+                                </tr>
+                                <tr>
+                                    <td class="feature-name">Free Trial</td>
+                                    <td class="check">✅ 500 records</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="check">✅ 500 records</td>
+                                    <td class="check">✅ 500 records</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="feature-name">GDPR Compliant</td>
+                                    <td class="check">✅ Yes</td>
+                                    <td class="cross">❌ No mention</td>
+                                    <td class="cross">❌ No mention</td>
+                                    <td class="cross">❌ No mention</td>
+                                    <td class="cross">❌ No mention</td>
+                                </tr>
+                                <tr class="highlight">
+                                    <td class="feature-name">Technical Support</td>
+                                    <td class="check">✅ Dedicated</td>
+                                    <td class="cross">❌ Limited</td>
+                                    <td class="check">✅ Community</td>
+                                    <td class="check">✅ Email</td>
+                                    <td class="check">✅ Email</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="differentiator-card">
-                    <h3>2. Built for B2B, Not Just Data Enthusiasts</h3>
-                    <p>CafeScraper is designed specifically for sales, marketing, and growth teams. We understand what B2B teams need:</p>
-                    <ul>
-                        <li>Verified contact information</li>
-                        <li>Clean, structured data</li>
-                        <li>Easy CRM integration</li>
-                        <li>Compliance support</li>
-                    </ul>
-                </div>
-                <div class="differentiator-card">
-                    <h3>3. Enterprise-Grade Reliability</h3>
-                    <p>Built for teams that need dependable data extraction:</p>
-                    <ul>
-                        <li>99.9% uptime SLA</li>
-                        <li>Automatic retries and error handling</li>
-                        <li>Real-time progress tracking</li>
-                        <li>Dedicated technical support</li>
-                    </ul>
-                </div>
-                <div class="differentiator-card">
-                    <h3>4. Compliance Built-In</h3>
-                    <p>Stay compliant with data protection regulations:</p>
-                    <ul>
-                        <li>GDPR and CCPA compliance tools</li>
-                        <li>Data retention controls</li>
-                        <li>Right-to-deletion support</li>
-                        <li>Transparent data usage guidelines</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Stats Section -->
-    <section class="section stats-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Trusted by 1,000+ B2B Teams Worldwide</h2>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-value">10M+</div>
-                    <div class="stat-label">Businesses Extracted<br>From restaurants to lawyers, gyms to dentists</div>
+            <!-- Differentiators Section -->
+            <section class="section differentiators-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Key Differentiators</h2>
+                    </div>
+                    <div class="differentiators-grid">
+                        <div class="differentiator-card">
+                            <h3>1. We Don't Just Scrape—We Validate</h3>
+                            <p>While other scrapers give you raw data, CafeScraper verifies every email and phone number. This means:</p>
+                            <ul>
+                                <li>Higher email deliverability rates</li>
+                                <li>Fewer bounced calls</li>
+                                <li>More successful connections</li>
+                            </ul>
+                        </div>
+                        <div class="differentiator-card">
+                            <h3>2. Built for B2B, Not Just Data Enthusiasts</h3>
+                            <p>CafeScraper is designed specifically for sales, marketing, and growth teams. We understand what B2B teams need:</p>
+                            <ul>
+                                <li>Verified contact information</li>
+                                <li>Clean, structured data</li>
+                                <li>Easy CRM integration</li>
+                                <li>Compliance support</li>
+                            </ul>
+                        </div>
+                        <div class="differentiator-card">
+                            <h3>3. Enterprise-Grade Reliability</h3>
+                            <p>Built for teams that need dependable data extraction:</p>
+                            <ul>
+                                <li>99.9% uptime SLA</li>
+                                <li>Automatic retries and error handling</li>
+                                <li>Real-time progress tracking</li>
+                                <li>Dedicated technical support</li>
+                            </ul>
+                        </div>
+                        <div class="differentiator-card">
+                            <h3>4. Compliance Built-In</h3>
+                            <p>Stay compliant with data protection regulations:</p>
+                            <ul>
+                                <li>GDPR and CCPA compliance tools</li>
+                                <li>Data retention controls</li>
+                                <li>Right-to-deletion support</li>
+                                <li>Transparent data usage guidelines</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📧</div>
-                    <div class="stat-value">500K+</div>
-                    <div class="stat-label">Verified Emails Delivered<br>Clean, deliverable email addresses</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">🏢</div>
-                    <div class="stat-value">1,000+</div>
-                    <div class="stat-label">Active Teams<br>Across 50+ countries</div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Testimonials Section -->
-    <section class="section stats-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">What Our Customers Say</h2>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <blockquote>"We used to spend 20 hours per week building prospect lists manually. CafeScraper cut that to 20 minutes. Our SDRs now spend their time selling, not researching."</blockquote>
-                    <div class="testimonial-author">Sarah Chen</div>
-                    <div class="testimonial-role">VP of Sales, B2B SaaS Company</div>
-                    <div class="testimonial-result">Result: 10x faster list building, 3x higher contact rates</div>
+            <!-- Stats Section -->
+            <section class="section stats-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Trusted by 1,000+ B2B Teams Worldwide</h2>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">📊</div>
+                            <div class="stat-value">10M+</div>
+                            <div class="stat-label">Businesses Extracted<br>From restaurants to lawyers, gyms to dentists</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📧</div>
+                            <div class="stat-value">500K+</div>
+                            <div class="stat-label">Verified Emails Delivered<br>Clean, deliverable email addresses</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏢</div>
+                            <div class="stat-value">1,000+</div>
+                            <div class="stat-label">Active Teams<br>Across 50+ countries</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="testimonial-card">
-                    <blockquote>"The email verification feature is a game-changer. We used to get 30% bounce rates with other scrapers. With CafeScraper, it's under 5%."</blockquote>
-                    <div class="testimonial-author">Marcus Rodriguez</div>
-                    <div class="testimonial-role">Marketing Director, Lead Generation Agency</div>
-                    <div class="testimonial-result">Result: 40% reduction in email bounce rates</div>
-                </div>
-                <div class="testimonial-card">
-                    <blockquote>"We needed to analyze competitor density across 50 cities for a market expansion study. CafeScraper delivered clean data in 2 days instead of the 3 weeks we'd estimated."</blockquote>
-                    <div class="testimonial-author">Jennifer Wu</div>
-                    <div class="testimonial-role">Market Research Manager, Retail Chain</div>
-                    <div class="testimonial-result">Result: 90% time savings on market research</div>
-                </div>
-                <div class="testimonial-card">
-                    <blockquote>"The API integration was seamless. We automated our lead generation pipeline and now pull fresh data weekly without manual intervention."</blockquote>
-                    <div class="testimonial-author">David Park</div>
-                    <div class="testimonial-role">Data Engineering Lead, Sales Tech Platform</div>
-                    <div class="testimonial-result">Result: Fully automated lead generation pipeline</div>
-                </div>
-            </div>
-            <div class="trust-badges-grid">
-                <div class="trust-badge-item">
-                    <span class="icon">🔒</span>
-                    <span>SOC 2 Type II Certified</span>
-                </div>
-                <div class="trust-badge-item">
-                    <span class="icon">🇪🇺</span>
-                    <span>GDPR Compliant</span>
-                </div>
-                <div class="trust-badge-item">
-                    <span class="icon">🇺🇸</span>
-                    <span>CCPA Compliant</span>
-                </div>
-                <div class="trust-badge-item">
-                    <span class="icon">✓</span>
-                    <span>Data Processing Agreement Available</span>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Pricing Section -->
-    <section class="section pricing-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Simple, Transparent Pricing</h2>
-            </div>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-icon">🆓</div>
-                    <h3>Free Trial</h3>
-                    <div class="pricing-price">$0</div>
-                    <ul class="pricing-features">
-                        <li>500 records free</li>
-                        <li>No credit card required</li>
-                        <li>All data fields included</li>
-                        <li>Email and phone validation</li>
-                        <li>CSV, Excel, JSON export</li>
-                    </ul>
-                    <div class="pricing-best-for">Best for: Testing the product</div>
-                    <a href="#" class="btn btn-primary" style="width: 100%;">Start Free Trial</a>
+            <!-- Testimonials Section -->
+            <section class="section stats-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">What Our Customers Say</h2>
+                    </div>
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <blockquote>"We used to spend 20 hours per week building prospect lists manually. CafeScraper cut that to 20 minutes. Our SDRs now spend their time selling, not researching."</blockquote>
+                            <div class="testimonial-author">Sarah Chen</div>
+                            <div class="testimonial-role">VP of Sales, B2B SaaS Company</div>
+                            <div class="testimonial-result">Result: 10x faster list building, 3x higher contact rates</div>
+                        </div>
+                        <div class="testimonial-card">
+                            <blockquote>"The email verification feature is a game-changer. We used to get 30% bounce rates with other scrapers. With CafeScraper, it's under 5%."</blockquote>
+                            <div class="testimonial-author">Marcus Rodriguez</div>
+                            <div class="testimonial-role">Marketing Director, Lead Generation Agency</div>
+                            <div class="testimonial-result">Result: 40% reduction in email bounce rates</div>
+                        </div>
+                        <div class="testimonial-card">
+                            <blockquote>"We needed to analyze competitor density across 50 cities for a market expansion study. CafeScraper delivered clean data in 2 days instead of the 3 weeks we'd estimated."</blockquote>
+                            <div class="testimonial-author">Jennifer Wu</div>
+                            <div class="testimonial-role">Market Research Manager, Retail Chain</div>
+                            <div class="testimonial-result">Result: 90% time savings on market research</div>
+                        </div>
+                        <div class="testimonial-card">
+                            <blockquote>"The API integration was seamless. We automated our lead generation pipeline and now pull fresh data weekly without manual intervention."</blockquote>
+                            <div class="testimonial-author">David Park</div>
+                            <div class="testimonial-role">Data Engineering Lead, Sales Tech Platform</div>
+                            <div class="testimonial-result">Result: Fully automated lead generation pipeline</div>
+                        </div>
+                    </div>
+                    <div class="trust-badges-grid">
+                        <div class="trust-badge-item">
+                            <span class="icon">🔒</span>
+                            <span>SOC 2 Type II Certified</span>
+                        </div>
+                        <div class="trust-badge-item">
+                            <span class="icon">🇪🇺</span>
+                            <span>GDPR Compliant</span>
+                        </div>
+                        <div class="trust-badge-item">
+                            <span class="icon">🇺🇸</span>
+                            <span>CCPA Compliant</span>
+                        </div>
+                        <div class="trust-badge-item">
+                            <span class="icon">✓</span>
+                            <span>Data Processing Agreement Available</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="pricing-card">
-                    <div class="pricing-icon">🚀</div>
-                    <h3>Starter</h3>
-                    <div class="pricing-price">$29<span>/month</span></div>
-                    <ul class="pricing-features">
-                        <li>5,000 records/month</li>
-                        <li>All data fields included</li>
-                        <li>Email and phone validation</li>
-                        <li>CSV, Excel, JSON export</li>
-                        <li>Email support (48h response)</li>
-                    </ul>
-                    <div class="pricing-best-for">Best for: Small teams and solo users</div>
-                    <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
-                </div>
-                <div class="pricing-card featured">
-                    <div class="pricing-icon">📈</div>
-                    <h3>Growth</h3>
-                    <div class="pricing-price">$99<span>/month</span></div>
-                    <ul class="pricing-features">
-                        <li>25,000 records/month</li>
-                        <li>Everything in Starter, plus:</li>
-                        <li>Email verification with deliverability scores</li>
-                        <li>Phone carrier and line type detection</li>
-                        <li>Priority email support (24h response)</li>
-                        <li>API access (5,000 requests/month)</li>
-                    </ul>
-                    <div class="pricing-best-for">Best for: Growing sales and marketing teams</div>
-                    <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
-                </div>
-                <div class="pricing-card">
-                    <div class="pricing-icon">🏢</div>
-                    <h3>Enterprise</h3>
-                    <div class="pricing-price">Custom</div>
-                    <ul class="pricing-features">
-                        <li>Unlimited records</li>
-                        <li>Everything in Growth, plus:</li>
-                        <li>Dedicated account manager</li>
-                        <li>Custom SLA (99.9% uptime)</li>
-                        <li>Priority phone support</li>
-                        <li>Custom integrations</li>
-                        <li>Data governance tools</li>
-                    </ul>
-                    <div class="pricing-best-for">Best for: Large teams with high-volume needs</div>
-                    <a href="#" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
-                </div>
-            </div>
-            <div class="pricing-highlights">
-                <p>✓ No hidden fees</p>
-                <p>✓ No complex tier calculations</p>
-                <p>✓ Cancel anytime</p>
-                <p>✓ Upgrade or downgrade at any time</p>
-                <p>✓ Volume discounts available for annual plans</p>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- FAQ Section -->
-    <section class="section faq-section">
-        <div class="section-inner">
-            <div class="section-header">
-                <h2 class="section-title">Frequently Asked Questions</h2>
-            </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>What is a Google Maps scraper?</span>
-                        <span class="faq-toggle">▼</span>
+            <!-- Pricing Section -->
+            <section class="section pricing-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Simple, Transparent Pricing</h2>
                     </div>
-                    <div class="faq-answer">
-                        <p>A Google Maps scraper is a tool that automatically extracts business data from Google Maps, including names, addresses, phone numbers, websites, emails, ratings, reviews, and more.</p>
-                        <p>Unlike manual copying—where you'd spend hours clicking through listings and typing information into a spreadsheet—a scraper can extract hundreds or thousands of records in minutes.</p>
-                        <p><strong>CafeScraper goes beyond basic scraping by:</strong></p>
-                        <ul>
-                            <li>Verifying email addresses for deliverability</li>
-                            <li>Validating and formatting phone numbers</li>
-                            <li>Enriching data with additional signals</li>
-                            <li>Providing clean, structured exports ready for your CRM or outreach tools</li>
-                        </ul>
+                    <div class="pricing-grid">
+                        <div class="pricing-card">
+                            <div class="pricing-icon">🆓</div>
+                            <h3>Free Trial</h3>
+                            <div class="pricing-price">$0</div>
+                            <ul class="pricing-features">
+                                <li>500 records free</li>
+                                <li>No credit card required</li>
+                                <li>All data fields included</li>
+                                <li>Email and phone validation</li>
+                                <li>CSV, Excel, JSON export</li>
+                            </ul>
+                            <div class="pricing-best-for">Best for: Testing the product</div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">Start Free Trial</a>
+                        </div>
+                        <div class="pricing-card">
+                            <div class="pricing-icon">🚀</div>
+                            <h3>Starter</h3>
+                            <div class="pricing-price">$29<span>/month</span></div>
+                            <ul class="pricing-features">
+                                <li>5,000 records/month</li>
+                                <li>All data fields included</li>
+                                <li>Email and phone validation</li>
+                                <li>CSV, Excel, JSON export</li>
+                                <li>Email support (48h response)</li>
+                            </ul>
+                            <div class="pricing-best-for">Best for: Small teams and solo users</div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+                        </div>
+                        <div class="pricing-card featured">
+                            <div class="pricing-icon">📈</div>
+                            <h3>Growth</h3>
+                            <div class="pricing-price">$99<span>/month</span></div>
+                            <ul class="pricing-features">
+                                <li>25,000 records/month</li>
+                                <li>Everything in Starter, plus:</li>
+                                <li>Email verification with deliverability scores</li>
+                                <li>Phone carrier and line type detection</li>
+                                <li>Priority email support (24h response)</li>
+                                <li>API access (5,000 requests/month)</li>
+                            </ul>
+                            <div class="pricing-best-for">Best for: Growing sales and marketing teams</div>
+                            <a href="#" class="btn btn-primary" style="width: 100%;">Get Started</a>
+                        </div>
+                        <div class="pricing-card">
+                            <div class="pricing-icon">🏢</div>
+                            <h3>Enterprise</h3>
+                            <div class="pricing-price">Custom</div>
+                            <ul class="pricing-features">
+                                <li>Unlimited records</li>
+                                <li>Everything in Growth, plus:</li>
+                                <li>Dedicated account manager</li>
+                                <li>Custom SLA (99.9% uptime)</li>
+                                <li>Priority phone support</li>
+                                <li>Custom integrations</li>
+                                <li>Data governance tools</li>
+                            </ul>
+                            <div class="pricing-best-for">Best for: Large teams with high-volume needs</div>
+                            <a href="#" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+                        </div>
                     </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Is scraping Google Maps legal?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, scraping publicly available business data from Google Maps is generally legal in most jurisdictions. Business listings on Google Maps are considered publicly accessible information.</p>
-                        <p><strong>However, it's important to:</strong></p>
-                        <ul>
-                            <li>Use the data responsibly and ethically</li>
-                            <li>Comply with data protection regulations like GDPR (Europe) and CCPA (California)</li>
-                            <li>Respect website terms of service and robots.txt directives</li>
-                            <li>Avoid scraping personal data from individuals without consent</li>
-                        </ul>
-                        <p><strong>CafeScraper helps you stay compliant by:</strong></p>
-                        <ul>
-                            <li>Providing built-in GDPR and CCPA compliance tools</li>
-                            <li>Offering data retention controls</li>
-                            <li>Supporting right-to-deletion requests</li>
-                            <li>Providing transparent data usage guidelines</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Can I extract email addresses from Google Maps?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Yes, CafeScraper can extract email addresses from Google Maps business listings when they're available.</p>
-                        <p><strong>How it works:</strong></p>
-                        <ol>
-                            <li>We scan the business listing for email addresses</li>
-                            <li>We cross-reference the business website to find additional emails</li>
-                            <li>We verify each email for deliverability</li>
-                            <li>We provide a validity status (valid, invalid, unknown) for each email</li>
-                        </ol>
-                        <p><strong>Why this matters:</strong> Many scrapers simply extract emails without verification, leading to high bounce rates and wasted outreach efforts. CafeScraper's email verification ensures you get deliverable addresses, improving your contact rates by up to 3x compared to unverified lists.</p>
-                        <p><strong>Note:</strong> Not all Google Maps listings include email addresses. Availability varies by business type, region, and individual business preferences.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>What data can I extract from Google Maps?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>CafeScraper extracts <strong>50+ data fields</strong> per business, organized into these categories:</p>
-                        <p><strong>Basic Business Information:</strong> Business name, address (street, city, state, country, postal code), GPS coordinates, Google Place ID, business categories and tags, price range</p>
-                        <p><strong>Contact Information:</strong> Phone numbers (validated and formatted), website URL, email addresses (verified for deliverability), social media profiles</p>
-                        <p><strong>Ratings & Reviews:</strong> Overall rating, total review count, review distribution, recent review snippets</p>
-                        <p><strong>Operational Details:</strong> Opening hours, permanent/temporarily closed status, service types, payment methods accepted</p>
-                        <p><strong>Enhanced Data (CafeScraper Exclusive):</strong> Email verification status, email deliverability score, phone validation status, phone carrier and line type, business size estimate</p>
+                    <div class="pricing-highlights">
+                        <p>✓ No hidden fees</p>
+                        <p>✓ No complex tier calculations</p>
+                        <p>✓ Cancel anytime</p>
+                        <p>✓ Upgrade or downgrade at any time</p>
+                        <p>✓ Volume discounts available for annual plans</p>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>How do I export Google Maps data to Excel?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Exporting data from CafeScraper to Excel is simple:</p>
-                        <p><strong>Step-by-Step Process:</strong></p>
-                        <ol>
-                            <li><strong>Search:</strong> Enter your query (e.g., "restaurants in Austin, TX")</li>
-                            <li><strong>Extract:</strong> Click "Extract Data" and wait for the process to complete</li>
-                            <li><strong>Export:</strong> Click "Download as Excel" or "Download as CSV"</li>
-                            <li><strong>Open:</strong> Open the file in Microsoft Excel, Google Sheets, or your preferred spreadsheet application</li>
-                        </ol>
-                        <p><strong>What you get:</strong> Clean, structured data with consistent column headers, all 50+ data fields in separate columns, no manual formatting required, ready to import into your CRM or analysis platform.</p>
-                        <p><strong>Supported Formats:</strong> Excel (.xlsx), CSV (.csv), JSON (.json)</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Do I need a Google API key to use CafeScraper?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p><strong>No, you don't need a Google API key or Google account to use CafeScraper.</strong></p>
-                        <p>We handle all the technical complexity so you can focus on extracting data.</p>
-                        <p><strong>What this means for you:</strong></p>
-                        <ul>
-                            <li>No need to register for Google Cloud Platform</li>
-                            <li>No need to set up API credentials</li>
-                            <li>No need to worry about API quotas or billing</li>
-                            <li>No need to write code to access Google Maps data</li>
-                        </ul>
-                        <p>CafeScraper operates independently and extracts data directly from Google Maps without requiring you to configure any Google services.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Is CafeScraper GDPR and CCPA compliant?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p><strong>Yes, CafeScraper is built with data privacy and compliance in mind.</strong></p>
-                        <p><strong>GDPR Compliance Features:</strong></p>
-                        <ul>
-                            <li>Clear data governance policies</li>
-                            <li>Data retention controls</li>
-                            <li>Right-to-deletion support</li>
-                            <li>Data processing agreements available</li>
-                        </ul>
-                        <p><strong>CCPA Compliance Features:</strong></p>
-                        <ul>
-                            <li>Consumer opt-out support</li>
-                            <li>Data disclosure controls</li>
-                            <li>"Do not sell" mechanisms</li>
-                            <li>Clear privacy policy and data practices</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>How accurate is the extracted data?</span>
-                        <span class="faq-toggle">▼</span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>CafeScraper goes beyond simple scraping—we <strong>validate and enrich</strong> every data point to ensure accuracy.</p>
-                        <p><strong>Our Data Quality Process:</strong></p>
-                        <p><strong>1. Email Verification:</strong> Syntax validation, domain verification, mailbox verification, deliverability scoring</p>
-                        <p><strong>2. Phone Validation:</strong> Format standardization, carrier identification, line type detection, active status verification</p>
-                        <p><strong>3. Business Information Cross-Referencing:</strong> Compare data across multiple sources, identify inconsistencies, provide confidence scores</p>
-                        <p><strong>The Result:</strong></p>
-                        <ul>
-                            <li>Email accuracy: 95%+ deliverability rate for "valid" emails</li>
-                            <li>Phone accuracy: 90%+ formatted and validated correctly</li>
-                            <li>Business information: Directly from Google Maps, updated in real-time</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- CTA Section -->
-    <section class="cta-section">
-        <div class="section-inner">
-            <h2>Start Extracting Verified Business Leads Today</h2>
-            <p>Join 1,000+ B2B teams using CafeScraper to build better prospect lists, faster.</p>
-            <div class="cta-buttons">
-                <a href="#" class="btn btn-white">Start Free Trial</a>
-                <a href="#" class="btn btn-outline-white">Contact Sales</a>
-            </div>
-            <div class="cta-value-props">
-                <span>✓ No credit card required</span>
-                <span>✓ Extract up to 500 records free</span>
-                <span>✓ Verified emails and phones included</span>
-                <span>✓ Export to Excel, CSV, or JSON</span>
-            </div>
-            <div class="cta-alternative">
-                Need a custom solution? <a href="#">Contact Sales</a> for enterprise pricing and dedicated support.
-            </div>
-        </div>
-    </section>
+            <!-- FAQ Section -->
+            <section class="section faq-section">
+                <div class="section-inner">
+                    <div class="section-header">
+                        <h2 class="section-title">Frequently Asked Questions</h2>
+                    </div>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What is a Google Maps scraper?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>A Google Maps scraper is a tool that automatically extracts business data from Google Maps, including names, addresses, phone numbers, websites, emails, ratings, reviews, and more.</p>
+                                <p>Unlike manual copying—where you'd spend hours clicking through listings and typing information into a spreadsheet—a scraper can extract hundreds or thousands of records in minutes.</p>
+                                <p><strong>CafeScraper goes beyond basic scraping by:</strong></p>
+                                <ul>
+                                    <li>Verifying email addresses for deliverability</li>
+                                    <li>Validating and formatting phone numbers</li>
+                                    <li>Enriching data with additional signals</li>
+                                    <li>Providing clean, structured exports ready for your CRM or outreach tools</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Is scraping Google Maps legal?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, scraping publicly available business data from Google Maps is generally legal in most jurisdictions. Business listings on Google Maps are considered publicly accessible information.</p>
+                                <p><strong>However, it's important to:</strong></p>
+                                <ul>
+                                    <li>Use the data responsibly and ethically</li>
+                                    <li>Comply with data protection regulations like GDPR (Europe) and CCPA (California)</li>
+                                    <li>Respect website terms of service and robots.txt directives</li>
+                                    <li>Avoid scraping personal data from individuals without consent</li>
+                                </ul>
+                                <p><strong>CafeScraper helps you stay compliant by:</strong></p>
+                                <ul>
+                                    <li>Providing built-in GDPR and CCPA compliance tools</li>
+                                    <li>Offering data retention controls</li>
+                                    <li>Supporting right-to-deletion requests</li>
+                                    <li>Providing transparent data usage guidelines</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Can I extract email addresses from Google Maps?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Yes, CafeScraper can extract email addresses from Google Maps business listings when they're available.</p>
+                                <p><strong>How it works:</strong></p>
+                                <ol>
+                                    <li>We scan the business listing for email addresses</li>
+                                    <li>We cross-reference the business website to find additional emails</li>
+                                    <li>We verify each email for deliverability</li>
+                                    <li>We provide a validity status (valid, invalid, unknown) for each email</li>
+                                </ol>
+                                <p><strong>Why this matters:</strong> Many scrapers simply extract emails without verification, leading to high bounce rates and wasted outreach efforts. CafeScraper's email verification ensures you get deliverable addresses, improving your contact rates by up to 3x compared to unverified lists.</p>
+                                <p><strong>Note:</strong> Not all Google Maps listings include email addresses. Availability varies by business type, region, and individual business preferences.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>What data can I extract from Google Maps?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>CafeScraper extracts <strong>50+ data fields</strong> per business, organized into these categories:</p>
+                                <p><strong>Basic Business Information:</strong> Business name, address (street, city, state, country, postal code), GPS coordinates, Google Place ID, business categories and tags, price range</p>
+                                <p><strong>Contact Information:</strong> Phone numbers (validated and formatted), website URL, email addresses (verified for deliverability), social media profiles</p>
+                                <p><strong>Ratings & Reviews:</strong> Overall rating, total review count, review distribution, recent review snippets</p>
+                                <p><strong>Operational Details:</strong> Opening hours, permanent/temporarily closed status, service types, payment methods accepted</p>
+                                <p><strong>Enhanced Data (CafeScraper Exclusive):</strong> Email verification status, email deliverability score, phone validation status, phone carrier and line type, business size estimate</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How do I export Google Maps data to Excel?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>Exporting data from CafeScraper to Excel is simple:</p>
+                                <p><strong>Step-by-Step Process:</strong></p>
+                                <ol>
+                                    <li><strong>Search:</strong> Enter your query (e.g., "restaurants in Austin, TX")</li>
+                                    <li><strong>Extract:</strong> Click "Extract Data" and wait for the process to complete</li>
+                                    <li><strong>Export:</strong> Click "Download as Excel" or "Download as CSV"</li>
+                                    <li><strong>Open:</strong> Open the file in Microsoft Excel, Google Sheets, or your preferred spreadsheet application</li>
+                                </ol>
+                                <p><strong>What you get:</strong> Clean, structured data with consistent column headers, all 50+ data fields in separate columns, no manual formatting required, ready to import into your CRM or analysis platform.</p>
+                                <p><strong>Supported Formats:</strong> Excel (.xlsx), CSV (.csv), JSON (.json)</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Do I need a Google API key to use CafeScraper?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p><strong>No, you don't need a Google API key or Google account to use CafeScraper.</strong></p>
+                                <p>We handle all the technical complexity so you can focus on extracting data.</p>
+                                <p><strong>What this means for you:</strong></p>
+                                <ul>
+                                    <li>No need to register for Google Cloud Platform</li>
+                                    <li>No need to set up API credentials</li>
+                                    <li>No need to worry about API quotas or billing</li>
+                                    <li>No need to write code to access Google Maps data</li>
+                                </ul>
+                                <p>CafeScraper operates independently and extracts data directly from Google Maps without requiring you to configure any Google services.</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>Is CafeScraper GDPR and CCPA compliant?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p><strong>Yes, CafeScraper is built with data privacy and compliance in mind.</strong></p>
+                                <p><strong>GDPR Compliance Features:</strong></p>
+                                <ul>
+                                    <li>Clear data governance policies</li>
+                                    <li>Data retention controls</li>
+                                    <li>Right-to-deletion support</li>
+                                    <li>Data processing agreements available</li>
+                                </ul>
+                                <p><strong>CCPA Compliance Features:</strong></p>
+                                <ul>
+                                    <li>Consumer opt-out support</li>
+                                    <li>Data disclosure controls</li>
+                                    <li>"Do not sell" mechanisms</li>
+                                    <li>Clear privacy policy and data practices</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                <span>How accurate is the extracted data?</span>
+                                <span class="faq-toggle">▼</span>
+                            </div>
+                            <div class="faq-answer">
+                                <p>CafeScraper goes beyond simple scraping—we <strong>validate and enrich</strong> every data point to ensure accuracy.</p>
+                                <p><strong>Our Data Quality Process:</strong></p>
+                                <p><strong>1. Email Verification:</strong> Syntax validation, domain verification, mailbox verification, deliverability scoring</p>
+                                <p><strong>2. Phone Validation:</strong> Format standardization, carrier identification, line type detection, active status verification</p>
+                                <p><strong>3. Business Information Cross-Referencing:</strong> Compare data across multiple sources, identify inconsistencies, provide confidence scores</p>
+                                <p><strong>The Result:</strong></p>
+                                <ul>
+                                    <li>Email accuracy: 95%+ deliverability rate for "valid" emails</li>
+                                    <li>Phone accuracy: 90%+ formatted and validated correctly</li>
+                                    <li>Business information: Directly from Google Maps, updated in real-time</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2024 CafeScraper. All rights reserved.</p>
-    </footer>
+            <!-- CTA Section -->
+            <section class="cta-section">
+                <div class="section-inner">
+                    <h2>Start Extracting Verified Business Leads Today</h2>
+                    <p>Join 1,000+ B2B teams using CafeScraper to build better prospect lists, faster.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-white">Start Free Trial</a>
+                        <a href="#" class="btn btn-outline-white">Contact Sales</a>
+                    </div>
+                    <div class="cta-value-props">
+                        <span>✓ No credit card required</span>
+                        <span>✓ Extract up to 500 records free</span>
+                        <span>✓ Verified emails and phones included</span>
+                        <span>✓ Export to Excel, CSV, or JSON</span>
+                    </div>
+                    <div class="cta-alternative">
+                        Need a custom solution? <a href="#">Contact Sales</a> for enterprise pricing and dedicated support.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>&copy; 2024 CafeScraper. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
 
     <script>
         // FAQ Toggle
